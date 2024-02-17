@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define the Employee table
+model Employee {
+  id            Int        @id @default(autoincrement())
+  employeeID    String     @unique
+  firstName     String
+  middleName    String?
+  lastName      String
+  streetAddress String
+  barangay      String
+  province      String
+  country       String
+  zipCode       String
+  status        String     // Active, Resigned, AWOL
+  position      Position   @relation(fields: [positionId], references: [id])
+  positionId    Int
+  basicPay    Float
+  incomeTax   Float?
+  earnings      Earnings[]
+  deductions    Deduction[]
+  payrolls      Payroll[]  // Added the opposite relation field
+}
+
+// Define the Position table
+model Position {
+  id           Int          @id @default(autoincrement())
+  title        String
+  department   Department   @relation(fields: [departmentId], references: [id])
+  departmentId Int
+  employees    Employee[]
+}
+
+// Define the Department table
+model Department {
+  id          Int         @id @default(autoincrement())
+  name        String
+  positions   Position[]
+}
+
+// Define the Earnings table
+model Earnings {
+  id           Int       @id @default(autoincrement())
+  employee     Employee  @relation(fields: [employeeId], references: [id])
+  employeeId   Int
+  earningType  String
+  value        Float
+}
+
+// Define the Deductions table
+model Deduction {
+  id            Int       @id @default(autoincrement())
+  employee      Employee  @relation(fields: [employeeId], references: [id])
+  employeeId    Int
+  deductionType String
+  value         Float
+}
+
+// Define the Payroll table
+model Payroll {
+  id          Int        @id @default(autoincrement())
+  month       String
+  year        Int
+  employee    Employee   @relation(fields: [employeeId], references: [id])
+  employeeId  Int
+}
