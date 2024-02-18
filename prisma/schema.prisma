@@ -64,9 +64,19 @@ model Deduction {
 
 // Define the Payroll table
 model Payroll {
-  id          Int        @id @default(autoincrement())
-  month       String
-  year        Int
-  employee    Employee   @relation(fields: [employeeId], references: [id])
-  employeeId  Int
+  id             Int        @id @default(autoincrement())
+  payrollNumber  String     @unique @default(uuid())
+  month          String
+  year           Int
+  employee       Employee   @relation(fields: [employeeId], references: [id])
+  employeeId     Int
+  firstName      String
+  lastName       String
+  basicPay       Float
+  incomeTax      Float
+  totalEarnings  Float
+  totalDeductions Float
+  netPay         Float
+  createdAt      DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 }
