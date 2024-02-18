@@ -7,16 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Define the Employee table
+
 model Employee {
   id            Int        @id @default(autoincrement())
-  employeeID    String     @unique
+  employeeID    String     @unique @default(uuid())
   firstName     String
   middleName    String?
   lastName      String
   streetAddress String
   barangay      String
   province      String
+  city          String
   country       String
   zipCode       String
   status        String     // Active, Resigned, AWOL
@@ -26,10 +27,10 @@ model Employee {
   incomeTax   Float?
   earnings      Earnings[]
   deductions    Deduction[]
-  payrolls      Payroll[]  // Added the opposite relation field
+  payrolls      Payroll[]  
 }
 
-// Define the Position table
+
 model Position {
   id           Int          @id @default(autoincrement())
   title        String
@@ -38,14 +39,12 @@ model Position {
   employees    Employee[]
 }
 
-// Define the Department table
 model Department {
   id          Int         @id @default(autoincrement())
   name        String
   positions   Position[]
 }
 
-// Define the Earnings table
 model Earnings {
   id           Int       @id @default(autoincrement())
   employee     Employee  @relation(fields: [employeeId], references: [id])

@@ -1,12 +1,9 @@
-import Image from "next/image";
+const { PrismaClient } = require('@prisma/client');
 
-async function getEmployees() {
-  const res = await fetch("/api/getEmployees");
-  const data = await res.json();
-  return data;
-}
+const prisma = new PrismaClient();
 
-export default function Home() {
+export default async function Home() {
+
   return (
     <main>
       
