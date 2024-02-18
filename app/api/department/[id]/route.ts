@@ -17,7 +17,7 @@ export async function PUT (request: Request, { params } : { params: { id: string
     const json = await request.json()
     const updatedDepartment = await prisma.department.update({
         where: {
-            id: parseInt(id, 10)
+            id: Number(id)
         },
         data: json
     })
@@ -29,7 +29,7 @@ export async function DELETE (request: Request, { params } : { params: { id: str
     const id = params.id
     const deletedDepartment = await prisma.department.delete({
         where: {
-            id: parseInt(id, 10)
+            id: Number(id)
         }
     })
 
