@@ -3,7 +3,15 @@ import { NextResponse } from "next/server";
 
 
 export async function GET (request: Request){
-    const employees = await prisma.employee.findMany();
+    const employees = await prisma.employee.findMany({
+        include: {
+            position: {
+                include: {
+                    department: true,
+                },
+            },
+        },
+    });
     return NextResponse.json(employees);
 }
 
