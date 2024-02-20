@@ -1,7 +1,7 @@
 export const NAVBAR_ITEMS = [
     {
     "id": "dashboard",
-    "href": "/dashboard",
+    "href": "/",
     "title": "Dashboard"
     },
     {

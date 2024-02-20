@@ -9,20 +9,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { fetchEmployees } from "@/utils/fetchUtils"
 import Link from "next/link"
 
 const EmployeePage = async () => {
-  const fetchEmployees = await fetch("http://localhost:3000/api/employees", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-  const employees = await fetchEmployees.json()
-
+  const employees = await fetchEmployees()
 
   return (
     <main>
+        <div className="rounded-lg shadow-lg bg-white p-4 overflow-auto">
         <Button>
           <Link href='/create-employee'>
             Create New Employee
@@ -63,6 +58,7 @@ const EmployeePage = async () => {
             ))}
           </TableBody>
         </Table>
+        </div>
       </main>
   )
 }
