@@ -7,6 +7,13 @@ export async function GET (request: Request, { params } : { params: { id: string
     const employees = await prisma.employee.findUnique({
         where: {
             id: parseInt(id, 10)
+        },
+        include: {
+            position: {
+                include: {
+                    department: true
+                }
+            }
         }
     });
     return NextResponse.json(employees);

@@ -68,12 +68,11 @@ const EmployeePage = () => {
               <TableCell>{employee.firstName}</TableCell>
               <TableCell>{employee.city}</TableCell>
               <TableCell>{employee.country}</TableCell>
-              {/* Cannot access the position object and department object */}
               <TableCell>{employee.position.title}</TableCell>
               <TableCell>{employee.position.department.name}</TableCell>
               <TableCell>{employee.status}</TableCell>
               <TableCell className="flex gap-4">
-                <Button><Link href='/edit-employee'>Edit Employee</Link></Button>
+                <Button><Link href={`/edit-employee/${employee.id}`}>Edit Employee</Link></Button>
                 <Button>Generate Payslip</Button>
               </TableCell>
               

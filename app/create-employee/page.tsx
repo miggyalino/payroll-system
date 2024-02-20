@@ -96,7 +96,6 @@ const CreateEmployeePage = () => {
   
    // Send a POST request to your API to create a new employee...
    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
     try {
       await fetch('/api/employees', {
         method: 'POST',
@@ -129,87 +128,82 @@ const CreateEmployeePage = () => {
     
     <div>
       <form onSubmit={handleSubmit}>
-          
-        <div className='flex'>
-
+        <h2 className='text-xl font-bold mb-2'>Create New Employee</h2>
+        <div className='flex gap-12 p-10 bg-slate-200 rounded-lg shadow-md'>
           {/* Name Form */}
           <div className='flex flex-col'>
-            <label>
+            <label className='flex flex-col'>
               First Name:
               <input type="text" className='border-2 rounded-full' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
             </label>
-            <label>
+            <label className='flex flex-col'>
               Middle Name:
               <input type="text" className='border-2 rounded-full' value={middleName} onChange={(e) => setMiddleName(e.target.value)} />
             </label>
-            <label>
+            <label className='flex flex-col'>
               Last Name:
               <input type="text" className='border-2 rounded-full' value={lastName} onChange={(e) => setLastName(e.target.value)} />
             </label>
-          </div>
-          
           {/* Address Form */}
-          <div className='flex flex-col'>
-            <label>
+            <label className='flex flex-col'>
               Street Address:
               <input type="text" className='border-2 rounded-full' value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)} />
             </label>
-            <label>
+            <label className='flex flex-col'>
               Barangay:
               <input type="text" className='border-2 rounded-full' value={barangay} onChange={(e) => setBarangay(e.target.value)} />
             </label>
-            <label>
+            <label className='flex flex-col'>
               City:
               <input type="text" className='border-2 rounded-full' value={city} onChange={(e) => setCity(e.target.value)} />
             </label>
-            <label>
+            <label className='flex flex-col'>
               Province:
               <input type="text" className='border-2 rounded-full' value={province} onChange={(e) => setProvince(e.target.value)} />
             </label>
-            <label>
+            <label className='flex flex-col'>
               Country:
               <input type="text" className='border-2 rounded-full' value={country} onChange={(e) => setCountry(e.target.value)} />
             </label>
-            <label>
+            <label className='flex flex-col'>
               ZIP Code:
               <input type="text" className='border-2 rounded-full' value={zipCode} onChange={(e) => setZipCode(e.target.value)} />
             </label>
           </div>
-          
 
           {/* Employee Pay and Position Form */}
           <div className='flex flex-col'>
-            <label>
+            <label className='flex flex-col'>
               Basic Pay:
               <input type="text" className='border-2 rounded-full' value={basicPay} onChange={(e) => setBasicPay(parseFloat(e.target.value))} />
             </label>
 
-            <label>
+            <label className='flex flex-col'>
               Income Tax:
               <input type="text" className='border-2 rounded-full' value={incomeTax} onChange={(e) => setIncomeTax(parseFloat(e.target.value))} />
             </label>
 
-            <label>
+            <label className='flex flex-col'>
               Department:
               <select value={department} onChange={(e) => setDepartment(parseInt(e.target.value))}>
                 <option value="" selected>Select a department</option>
-                {departments.map((department) => (
+                {departments.map((department,key) => (
                   <option key={department.id} value={department.id}>{department.name}</option>
                 ))}
               </select>
             </label>
 
-            <label>
+            <label className='flex flex-col'>
               Position:
               <select value={position} onChange={(e) => setPosition(parseInt(e.target.value))}>
                 {/* Ignore Error It works fine */}
-                {positions && positions.map((position) => (
+                {positions && positions.map((position,key) => (
                   <option key={position.id} value={position.id}>{position.title}</option>
                 ))}
               </select>
             </label>
 
-            <label>
+            <label className='flex flex-col'>
               Status:
               <select value={status} onChange={(e) => setStatus(e.target.value)}>
                 <option value="Active">Active</option>
@@ -217,24 +211,33 @@ const CreateEmployeePage = () => {
                 <option value="AWOL">AWOL</option>
               </select>
             </label>
-
           </div>
 
+          {/* Earnings Table*/}
+          <div>
+             <h2 className='font-bold text-lg'>Earnings</h2>     
+          </div>
+
+          {/* Deductions Table*/}
+          <div>
+            <h2 className='font-bold text-lg'>Deductions</h2>      
+          </div>
         </div>
         
         
 
         {/* Add a table for earnings and deductions... */}
-        <div className='flex gap-4'>
-          <button type='submit'>
+        <div className='flex gap-4 mt-4'>
+          <Button type='submit'>
             Create
-          </button>
-          
-          <Button variant='destructive'>
-            <Link href='/employees-page'>
-              Cancel
-            </Link>
           </Button>
+          
+          <Link href='/employees-page'>
+            <Button>
+              Back to Employees Page
+            </Button>
+          </Link>
+          
         </div>
         
         
