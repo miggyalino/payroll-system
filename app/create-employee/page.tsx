@@ -214,11 +214,15 @@ const CreateEmployeePage = () => {
           </div>
 
           {/* Earnings Table*/}
+          {/* TODO: Add a table for earnings that adds a row when Add Row button is clicked */}
+          {/* Fields: Earnings, Amount */}
           <div>
              <h2 className='font-bold text-lg'>Earnings</h2>     
           </div>
 
           {/* Deductions Table*/}
+          {/* TODO: Add a table for deductions that adds a row when Add Row button is clicked */}
+          {/* Fields: Deductions, Amount */}
           <div>
             <h2 className='font-bold text-lg'>Deductions</h2>      
           </div>
