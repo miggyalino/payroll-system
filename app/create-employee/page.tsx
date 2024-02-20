@@ -21,7 +21,7 @@ const CreateEmployeePage = () => {
   
   interface Position {
     id: string;
-    name: string;
+    title: string;
     departmentId: string;
   }
   // Initializing States
