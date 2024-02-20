@@ -18,6 +18,17 @@ export async function GET (request: Request){
 export async function POST (request: Request){
     try {
         const json = await request.json()
+
+         // Check if the Position record exists
+        const position = await prisma.position.findUnique({
+            where: { id: json.position },
+        });
+    
+        // If the Position record doesn't exist, return an error response
+        if (!position) {
+            return NextResponse.json({ error: `Position with ID ${json.position} does not exist` }, { status: 400 });
+        }
+  
         const createdEmployee = await prisma.employee.create({
             data: {
                 ...json,

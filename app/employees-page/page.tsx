@@ -1,3 +1,4 @@
+'use client';
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -11,9 +12,31 @@ import {
 } from "@/components/ui/table"
 import { fetchEmployees } from "@/utils/fetchUtils"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
-const EmployeePage = async () => {
-  const employees = await fetchEmployees()
+const EmployeePage = () => {
+
+  type Employee = {
+    employeeID: number;
+    lastName: string;
+    firstName: string;
+    city: string;
+    country: string;
+    position: string;
+    department: string;
+    status: string;
+  };
+
+  const [employees, setEmployees] = useState<Employee[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchEmployees();
+      setEmployees(data);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <main>
@@ -46,8 +69,8 @@ const EmployeePage = async () => {
               <TableCell>{employee.city}</TableCell>
               <TableCell>{employee.country}</TableCell>
               {/* Cannot access the position object and department object */}
-              <TableCell>{employee.position}</TableCell>
-              <TableCell>{employee.position}</TableCell>
+              <TableCell>{employee.position.title}</TableCell>
+              <TableCell>{employee.position.department.name}</TableCell>
               <TableCell>{employee.status}</TableCell>
               <TableCell className="flex gap-4">
                 <Button><Link href='/edit-employee'>Edit Employee</Link></Button>

@@ -64,7 +64,7 @@ const CreateEmployeePage = () => {
   };
 
   // fetch Positions function
-  const fetchPositions = async (departmentId: string) => {
+  const fetchPositions = async (departmentId: number) => {
     const response = await fetch(`http://localhost:3000/api/department/${departmentId}/positions`, {
       method: "GET",
       headers: {
@@ -81,13 +81,15 @@ const CreateEmployeePage = () => {
     return data;
   };
 
+  // client side rendering for departments dropdown
   useEffect(() => {
-    fetchDepartments();
+    fetchDepartments().catch(error => console.log(error));
   }, []);
 
+  // client side rendering for positions dropdown
   useEffect(() => {
     if (department) {
-      fetchPositions(department);
+      fetchPositions(department).catch(error => console.log(error));
     }
   }, [department]);
 
@@ -117,6 +119,7 @@ const CreateEmployeePage = () => {
           incomeTax,
         }),
       });
+      router.refresh();
     } catch (error) {
       console.log(error);
     }
@@ -200,7 +203,7 @@ const CreateEmployeePage = () => {
               Position:
               <select value={position} onChange={(e) => setPosition(parseInt(e.target.value))}>
                 {/* Ignore Error It works fine */}
-                {positions.map((position) => (
+                {positions && positions.map((position) => (
                   <option key={position.id} value={position.id}>{position.title}</option>
                 ))}
               </select>
@@ -220,21 +223,17 @@ const CreateEmployeePage = () => {
         </div>
         
         
-        
-        
-        
+
         {/* Add a table for earnings and deductions... */}
         <div className='flex gap-4'>
-          <Button>
-            <button type="submit">Create Employee</button>
-          </Button>
+          <button type='submit'>
+            Create
+          </button>
           
           <Button variant='destructive'>
-            <button type="button">
-              <Link href='/employees-page'>
-                Cancel
-              </Link>
-            </button>
+            <Link href='/employees-page'>
+              Cancel
+            </Link>
           </Button>
         </div>
         
