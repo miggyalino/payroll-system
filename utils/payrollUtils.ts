@@ -28,19 +28,18 @@ export async function generatePayroll(employeeId: number) {
     // Calculate the net pay
     const netPay = totalEarnings - totalDeductions;
     
-    // Create a new Payroll instance with the Employee data
-    // const newPayroll = await prisma.payroll.create({
-    //     data: {
-    //       employeeId: employee.id,
-    //       firstName: employee.firstName,
-    //       lastName: employee.lastName,
-    //       basicPay: employee.basicPay,
-    //       incomeTax: incomeTax,
-    //       totalEarnings: totalEarnings,
-    //       totalDeductions: totalDeductions,
-    //       netPay: netPay,
-    //     },
-    //   });
+    const newPayroll = await prisma.payroll.create({
+        data: {
+          employeeId: employee.id,
+          firstName: employee.firstName,
+          lastName: employee.lastName,
+          basicPay: employee.basicPay,
+          incomeTax: incomeTax,
+          totalEarnings: totalEarnings,
+          totalDeductions: totalDeductions,
+          netPay: netPay,
+        },
+      });
     
-    // return newPayroll;
+    return newPayroll;
 }

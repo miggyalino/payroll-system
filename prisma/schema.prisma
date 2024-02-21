@@ -26,8 +26,7 @@ model Employee {
   basicPay    Float
   incomeTax   Float?
   earnings      Earnings[]
-  deductions    Deduction[]
-  payrolls      Payroll[]  
+  deductions    Deduction[] 
 }
 
 
@@ -68,14 +67,13 @@ model Payroll {
   payrollNumber  String     @unique @default(uuid())
   month          String
   year           Int
-  employee       Employee   @relation(fields: [employeeId], references: [id])
   employeeId     Int
   firstName      String
   lastName       String
   basicPay       Float
   incomeTax      Float
-  totalEarnings  Float
-  totalDeductions Float
+  totalEarnings  Float?
+  totalDeductions Float?
   netPay         Float
   createdAt      DateTime   @default(now())
   updatedAt     DateTime   @updatedAt

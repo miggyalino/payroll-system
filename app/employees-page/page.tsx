@@ -1,5 +1,6 @@
 'use client';
 import { Button } from "@/components/ui/button"
+import { toast } from 'sonner'
 import {
   Table,
   TableBody,
@@ -14,18 +15,48 @@ import { fetchEmployees } from "@/utils/fetchUtils"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
-const EmployeePage = () => {
+type Employee = {
+  id: number;
+  employeeID: number;
+  lastName: string;
+  firstName: string;
+  city: string;
+  country: string;
+  position: string;
+  department: string;
+  status: string;
+  basicPay: number;
+  incomeTax: number;
+};
 
-  type Employee = {
-    employeeID: number;
-    lastName: string;
-    firstName: string;
-    city: string;
-    country: string;
-    position: string;
-    department: string;
-    status: string;
-  };
+const handleSubmit = async (employee: Employee) => {
+  try {
+    const response = await fetch('/api/payroll', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        employeeId: employee.id,
+        firstName: employee.firstName,
+        lastName: employee.lastName,
+        basicPay: employee.basicPay,
+        incomeTax: employee.incomeTax,
+        netPay: employee.basicPay - employee.incomeTax,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('HTTP error ' + response.status);
+    }
+
+    toast('Payroll generated successfully')
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+const EmployeePage = () => {
 
   const [employees, setEmployees] = useState<Employee[]>([]);
 
@@ -73,7 +104,7 @@ const EmployeePage = () => {
               <TableCell>{employee.status}</TableCell>
               <TableCell className="flex gap-4">
                 <Button><Link href={`/edit-employee/${employee.id}`}>Edit Employee</Link></Button>
-                <Button>Generate Payslip</Button>
+                <Button onClick={() => handleSubmit(employee)}>Generate Payslip</Button>
               </TableCell>
               
             </TableRow>
