@@ -38,6 +38,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
     basicPay: number;
     incomeTax: number;
     position: {
+      id: number;
       title: string;
       department: {
         id: number;
@@ -59,7 +60,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
   const [zipCode, setZipCode] = useState('');
   const [status, setStatus] = useState('');
   const [department, setDepartment] = useState<number>(0);
-  const [position, setPosition] = useState<number>(0);
+  const [positionId, setPositionId] = useState<number>(0);
   const [basicPay, setBasicPay] = useState<number>(0);
   const [incomeTax, setIncomeTax] = useState<number>(0);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -142,13 +143,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
           country,
           zipCode,
           status,
-          position: position ? {
-            ...position,
-            department: position.department ? {
-              ...position.department,
-              name: departmentName, // replace with your state variable for the department name
-            } : undefined,
-          } : undefined,
+          positionId,
           basicPay,
           incomeTax,
         }),
@@ -162,46 +157,46 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-      <h2 className='text-xl font-bold mb-2'>{`${employee?.lastName}, ${employee?.firstName}`}</h2>
+      <h2 className='text-xl font-bold mb-2'>{`${employee?.lastName}, ${firstName}`}</h2>
         <div className='flex gap-12 p-10 bg-slate-200 rounded-lg shadow-md'>
           {/* Name Form */}
           <div className='flex flex-col'>
             <label className='flex flex-col'>
               First Name:
-              <input type="text" className='border-2 rounded-full' value={employee?.firstName} onChange={(e) => setFirstName(e.target.value)} />
+              <input type="text" className='border-2 rounded-full' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
             </label>
             <label className='flex flex-col'>
               Middle Name:
-              <input type="text" className='border-2 rounded-full' value={employee?.middleName} onChange={(e) => setMiddleName(e.target.value)} />
+              <input type="text" className='border-2 rounded-full' value={middleName} onChange={(e) => setMiddleName(e.target.value)} />
             </label>
             <label className='flex flex-col'>
               Last Name:
-              <input type="text" className='border-2 rounded-full' value={employee?.lastName} onChange={(e) => setLastName(e.target.value)} />
+              <input type="text" className='border-2 rounded-full' value={lastName} onChange={(e) => setLastName(e.target.value)} />
             </label>
           {/* Address Form */}
             <label className='flex flex-col'>
               Street Address:
-              <input type="text" className='border-2 rounded-full' value={employee?.streetAddress} onChange={(e) => setStreetAddress(e.target.value)} />
+              <input type="text" className='border-2 rounded-full' value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)} />
             </label>
             <label className='flex flex-col'>
               Barangay:
-              <input type="text" className='border-2 rounded-full' value={employee?.barangay} onChange={(e) => setBarangay(e.target.value)} />
+              <input type="text" className='border-2 rounded-full' value={barangay} onChange={(e) => setBarangay(e.target.value)} />
             </label>
             <label className='flex flex-col'>
               City:
-              <input type="text" className='border-2 rounded-full' value={employee?.city} onChange={(e) => setCity(e.target.value)} />
+              <input type="text" className='border-2 rounded-full' value={city} onChange={(e) => setCity(e.target.value)} />
             </label>
             <label className='flex flex-col'>
               Province:
-              <input type="text" className='border-2 rounded-full' value={employee?.province} onChange={(e) => setProvince(e.target.value)} />
+              <input type="text" className='border-2 rounded-full' value={province} onChange={(e) => setProvince(e.target.value)} />
             </label>
             <label className='flex flex-col'>
               Country:
-              <input type="text" className='border-2 rounded-full' value={employee?.country} onChange={(e) => setCountry(e.target.value)} />
+              <input type="text" className='border-2 rounded-full' value={country} onChange={(e) => setCountry(e.target.value)} />
             </label>
             <label className='flex flex-col'>
               ZIP Code:
-              <input type="text" className='border-2 rounded-full' value={employee?.zipCode} onChange={(e) => setZipCode(e.target.value)} />
+              <input type="text" className='border-2 rounded-full' value={zipCode} onChange={(e) => setZipCode(e.target.value)} />
             </label>
           </div>
 
@@ -209,12 +204,12 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
           <div className='flex flex-col'>
             <label className='flex flex-col'>
               Basic Pay:
-              <input type="text" className='border-2 rounded-full' value={employee?.basicPay} onChange={(e) => setBasicPay(parseFloat(e.target.value))} />
+              <input type="text" className='border-2 rounded-full' value={basicPay} onChange={(e) => setBasicPay(parseFloat(e.target.value))} />
             </label>
 
             <label className='flex flex-col'>
               Income Tax:
-              <input type="text" className='border-2 rounded-full' value={employee?.incomeTax} onChange={(e) => setIncomeTax(parseFloat(e.target.value))} />
+              <input type="text" className='border-2 rounded-full' value={incomeTax} onChange={(e) => setIncomeTax(parseFloat(e.target.value))} />
             </label>
 
             <label className='flex flex-col'>
@@ -229,7 +224,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
 
             <label className='flex flex-col'>
               Position:
-              <select value={position} onChange={(e) => setPosition(parseInt(e.target.value))}>
+              <select value={positionId} onChange={(e) => setPositionId(parseInt(e.target.value))}>
               <option key={employee?.position.id} value={employee?.position.id}>{employee?.position.title}</option>
                 {positions && positions.map((position,key) => (
                   <option key={position.id} value={position.id}>{position.title}</option>
