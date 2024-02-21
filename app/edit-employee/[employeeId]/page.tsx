@@ -306,10 +306,9 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
           </Link>
 
           
-          <Button type='submit' variant='destructive' onClick={handleDelete}>
+          <Button type='button' variant='destructive' onClick={handleDelete}>
             Delete Employee
           </Button>
-          
           
         </div>
         
