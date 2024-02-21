@@ -185,6 +185,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
           'Content-Type': 'application/json',
         },
       });
+      toast("Employee Deleted")
       router.push('/employees-page'); // redirect to the employees list page
     } catch (error) {
       console.log(error);
