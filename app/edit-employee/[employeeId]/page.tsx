@@ -148,7 +148,22 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
           incomeTax,
         }),
       });
-      router.refresh();
+      router.push('/employees-page')
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    try {
+      await fetch(`/api/employees/${params.employeeId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      router.push('/employees-page'); // redirect to the employees list page
     } catch (error) {
       console.log(error);
     }
@@ -157,7 +172,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-      <h2 className='text-xl font-bold mb-2'>{`${employee?.lastName}, ${firstName}`}</h2>
+      <h2 className='text-xl font-bold mb-2'>{`${employee?.lastName}, ${employee?.firstName}`}</h2>
         <div className='flex gap-12 p-10 bg-slate-200 rounded-lg shadow-md'>
           {/* Name Form */}
           <div className='flex flex-col'>
@@ -266,6 +281,12 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
               Back to Employees Page
             </Button>
           </Link>
+
+          
+          <Button type='submit' variant='destructive' onClick={handleDelete}>
+            Delete Employee
+          </Button>
+          
           
         </div>
         
