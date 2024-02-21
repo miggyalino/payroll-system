@@ -125,6 +125,25 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (employee) {
+      setFirstName(employee.firstName);
+      setMiddleName(employee.middleName);
+      setLastName(employee.lastName);
+      setStreetAddress(employee.streetAddress);
+      setBarangay(employee.barangay);
+      setCity(employee.city);
+      setProvince(employee.province);
+      setCountry(employee.country);
+      setZipCode(employee.zipCode);
+      setStatus(employee.status);
+      setDepartment(employee.position.department.id);
+      setPositionId(employee.position.id);
+      setBasicPay(employee.basicPay);
+      setIncomeTax(employee.incomeTax);
+    }
+  }, [employee]);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
       await fetch(`/api/employees/${params.employeeId}`, {
