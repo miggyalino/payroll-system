@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { toast } from 'sonner'
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
@@ -97,6 +98,7 @@ const CreateEmployeePage = () => {
    // Send a POST request to your API to create a new employee...
    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
+      event.preventDefault();
       await fetch('/api/employees', {
         method: 'POST',
         headers: {
@@ -118,7 +120,7 @@ const CreateEmployeePage = () => {
           incomeTax,
         }),
       });
-      router.refresh();
+      router.push('/employees-page')
     } catch (error) {
       console.log(error);
     }
@@ -232,7 +234,7 @@ const CreateEmployeePage = () => {
 
         {/* Add a table for earnings and deductions... */}
         <div className='flex gap-4 mt-4'>
-          <Button type='submit'>
+          <Button type='submit' onClick={() => toast("New Employee Created")}>
             Create
           </Button>
 

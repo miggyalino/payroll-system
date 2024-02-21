@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
+import { toast } from 'sonner'
 import { getEmployee } from "@/utils/fetchUtils"
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -125,6 +126,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
     fetchData();
   }, []);
 
+  // set default values for the form
   useEffect(() => {
     if (employee) {
       setFirstName(employee.firstName);
@@ -146,6 +148,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
+      event.preventDefault();
       await fetch(`/api/employees/${params.employeeId}`, {
         method: 'PUT',
         headers: {
@@ -291,10 +294,11 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
 
         {/* Add a table for earnings and deductions... */}
         <div className='flex gap-4 mt-4'>
-          <Button type='submit'>
+          
+          <Button type="submit" onClick={() => toast("Edited Employee Details")}>
             Save Changes
           </Button>
-          
+
           <Link href='/employees-page'>
             <Button>
               Back to Employees Page
