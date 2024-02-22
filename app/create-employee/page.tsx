@@ -258,10 +258,10 @@ const CreateEmployeePage = () => {
           <div className='p-10 bg-slate-200 rounded-lg shadow-md'>
             <h2 className='font-bold text-lg'>Deductions</h2>  
             <Table>
-              <TableCaption>Employees Additional Earnings</TableCaption>
+              <TableCaption>Employees Additional Deductions</TableCaption>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="">Earning Type</TableHead>
+                  <TableHead className="">Deduction Type</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
                 </TableRow>
               </TableHeader>
