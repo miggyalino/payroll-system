@@ -233,7 +233,19 @@ const CreateEmployeePage = () => {
           {/* TODO: Add a table for earnings that adds a row when Add Row button is clicked */}
           {/* Fields: Earnings, Amount */}
           <div className='flex flex-col p-10 bg-slate-200 rounded-lg shadow-md'>
-            <h2 className='font-bold text-lg'>Earnings</h2>    
+            <h2 className='font-bold text-2xl'>Earnings</h2>
+
+            {/* Form to add earning type and amount */}
+            <form action="">
+              <div className='flex gap-4 items-center'>
+                <label htmlFor="">Earning Type: </label>
+                <input type="text" />
+                <label htmlFor="">Value: </label>
+                <input type="text" />
+                <Button>Add Task</Button>
+              </div>
+            </form>    
+
             <Table>
               <TableCaption>Employees Additional Earnings</TableCaption>
               <TableHeader>
