@@ -1,4 +1,13 @@
 'use client';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -214,21 +223,67 @@ const CreateEmployeePage = () => {
               </select>
             </label>
           </div>
+        </div>
 
-          {/* Earnings Table*/}
+        {/* Earnings Table*/}
           {/* TODO: Add a table for earnings that adds a row when Add Row button is clicked */}
           {/* Fields: Earnings, Amount */}
-          <div>
-             <h2 className='font-bold text-lg'>Earnings</h2>     
+          <div className='flex flex-col p-10 bg-slate-200 rounded-lg shadow-md'>
+            <h2 className='font-bold text-2xl'>Earnings</h2>
+
+            {/* Form to add earning type and amount */}
+            <form action="">
+              <div className='flex gap-4 items-center'>
+                <label htmlFor="">Earning Type: </label>
+                <input type="text" />
+                <label htmlFor="">Value: </label>
+                <input type="text" />
+                <Button>Add Task</Button>
+              </div>
+            </form>    
+
+            <Table>
+              <TableCaption>Employees Additional Earnings</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="">Earning Type</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium">Name</TableCell>
+                  <TableCell className="text-right">$250.00</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+
           </div>
 
           {/* Deductions Table*/}
           {/* TODO: Add a table for deductions that adds a row when Add Row button is clicked */}
           {/* Fields: Deductions, Amount */}
-          <div>
-            <h2 className='font-bold text-lg'>Deductions</h2>      
+          <div className='p-10 bg-slate-200 rounded-lg shadow-md'>
+
+            <h2 className='font-bold text-lg'>Deductions</h2>  
+            <Table>
+              <TableCaption>Employees Additional Deductions</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="">Deduction Type</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium">Name</TableCell>
+                  <TableCell className="text-right">$250.00</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+    
           </div>
-        </div>
+        
         
         
 
