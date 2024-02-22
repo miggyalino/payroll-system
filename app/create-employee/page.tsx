@@ -103,6 +103,10 @@ const CreateEmployeePage = () => {
     }
   }, [department]);
 
+  useEffect(() => {
+    
+  })
+
   
    // Send a POST request to your API to create a new employee...
    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -138,7 +142,7 @@ const CreateEmployeePage = () => {
   return (
     
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
         <h2 className='text-xl font-bold mb-2'>Create New Employee</h2>
         <div className='flex gap-12 p-10 bg-slate-200 rounded-lg shadow-md'>
           {/* Name Form */}
@@ -223,27 +227,24 @@ const CreateEmployeePage = () => {
               </select>
             </label>
           </div>
+          </div>
 
           {/* Earnings Table*/}
           {/* TODO: Add a table for earnings that adds a row when Add Row button is clicked */}
           {/* Fields: Earnings, Amount */}
-          <div>
+          <div className='flex flex-col p-10 bg-slate-200 rounded-lg shadow-md'>
             <h2 className='font-bold text-lg'>Earnings</h2>    
             <Table>
-              <TableCaption>A list of your recent invoices.</TableCaption>
+              <TableCaption>Employees Additional Earnings</TableCaption>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">Invoice</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Method</TableHead>
+                  <TableHead className="">Earning Type</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell className="font-medium">INV001</TableCell>
-                  <TableCell>Paid</TableCell>
-                  <TableCell>Credit Card</TableCell>
+                  <TableCell className="font-medium">Name</TableCell>
                   <TableCell className="text-right">$250.00</TableCell>
                 </TableRow>
               </TableBody>
@@ -254,10 +255,26 @@ const CreateEmployeePage = () => {
           {/* Deductions Table*/}
           {/* TODO: Add a table for deductions that adds a row when Add Row button is clicked */}
           {/* Fields: Deductions, Amount */}
-          <div>
-            <h2 className='font-bold text-lg'>Deductions</h2>      
+          <div className='p-10 bg-slate-200 rounded-lg shadow-md'>
+            <h2 className='font-bold text-lg'>Deductions</h2>  
+            <Table>
+              <TableCaption>Employees Additional Earnings</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="">Earning Type</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium">Name</TableCell>
+                  <TableCell className="text-right">$250.00</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+    
           </div>
-        </div>
+        
         
         
 

@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} flex gap-5`}>
-        <div className="h-screen bg-slate-800 w-1/7">
+        <div className="min-h-screen bg-slate-800 w-1/7">
           <nav className="flex flex-col  text-white">
             <div className="flex items-center gap-2 p-8">
               <HandCoins size={32} color="#281cce" strokeWidth={2.25} />
