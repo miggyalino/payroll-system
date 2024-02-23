@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useRouter } from 'next/navigation';
 
 
 const CompanyPage = () => {
@@ -21,12 +22,22 @@ const CompanyPage = () => {
     id: string;
     name: string;
   }
+  interface Position {
+    id: string;
+    title: string;
+  }
 
 
 
   // Initializing use state hooks -----------------------------
   const [departmentName, setDepartmentName] = useState('')
   const [departments, setDepartments] = useState<Department[]>([])
+  const [departmentDropDown, setDepartmentDropDown] = useState<number>()
+
+  const [positionName, setPositionName] = useState('')
+  const [positions, setPositions] = useState<Position[]>([])
+
+  const router = useRouter()
 
 
 
@@ -49,11 +60,37 @@ const CompanyPage = () => {
     return data;
   };
 
+  //Fetch positions-------------------------------------------------
+  const fetchPositions = async (departmentID: number) => {
+
+    const response = await fetch(`http://localhost:3000/api/department/${departmentID}/positions`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    setPositions(data);
+    return data;
+  };
+
 
   //Client side rendering for departments dropdown---------------------
   useEffect(() => {
     fetchDepartments().catch(error => console.log(error));
   }, []);
+
+  //Client side rendering for positions dropdown-----------------------
+  useEffect(() => {
+    if (departmentDropDown) {
+      fetchPositions(departmentDropDown).catch(error => console.log(error));
+    }
+  }, [departmentDropDown]);
 
 
   //Post function for adding departments--------------------------------
@@ -68,10 +105,29 @@ const CompanyPage = () => {
           name: departmentName
         })
       })
+      router.refresh();
     } catch (error){
       console.log(error);
     }
   };
+
+    //Post function for adding position--------------------------------
+    const submitPosition = async (event: React.FormEvent<HTMLFormElement>) => {
+      try {
+        await fetch (`http://localhost:3000/api/department/${departmentDropDown}/positions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: positionName
+          })
+        })
+        router.refresh();
+      } catch (error){
+        console.log(error);
+      }
+    };
 
 
 
@@ -84,7 +140,7 @@ const CompanyPage = () => {
         {/* form for adding departments */}
         <form onSubmit={submitDepartment}>
           <div className="flex gap-4">
-            <input type="text" value = {departmentName} onChange={(e) => setDepartmentName(e.target.value)} className='rounded-lg'/>
+            <input type="text" value = {departmentName} onChange={(e) => setDepartmentName(e.target.value)} className='rounded-lg px-2'/>
             <Button type="submit">Add</Button>
           </div>
         </form> 
@@ -111,11 +167,11 @@ const CompanyPage = () => {
         <h2 className="font-bold text-2xl">Positions</h2>
 
         {/* form for adding positions */}
-        <form>
+        <form onSubmit={submitPosition}>
           <div className="flex gap-4">
-            <input type="text" className='rounded-lg'/>
-            <select value={departmentName} onChange={(e) => setDepartmentName((e.target.value))} className='rounded-lg'>
-              <option value="" selected>Select a department</option>
+            <input type="text" value = {positionName} onChange={(e) => setPositionName(e.target.value)} className='rounded-lg px-2'/>
+            <select value={departmentDropDown} onChange={(e) => setDepartmentDropDown(parseInt(e.target.value))} className='rounded-lg'>
+              <option value="" selected>Select department</option>
               {departments.map((department,key) => (
                 <option key={department.id} value={department.id}>{department.name}</option>
               ))}
@@ -123,6 +179,23 @@ const CompanyPage = () => {
             <Button type="submit">Add</Button>
           </div>
         </form> 
+
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>Position</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {positions.map((position)=> (  
+              <TableRow key={position.id}>
+                <TableCell>{position.id}</TableCell>
+                <TableCell>{position.title}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
 
       </div>
 
