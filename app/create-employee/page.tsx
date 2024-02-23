@@ -144,7 +144,7 @@ const CreateEmployeePage = () => {
           status,
           position,
           basicPay,
-          incomeTax
+          incomeTax,
         }),
       });
       router.push('/employees-page')
