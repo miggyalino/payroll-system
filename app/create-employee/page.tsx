@@ -76,7 +76,7 @@ const CreateEmployeePage = () => {
   // Fetch Departments
   const fetchDepartments = async () => {
     const response = await fetch("http://localhost:3000/api/department", {
-      method: "GET",
+      method: "GET", 
       headers: {
         "Content-Type": "application/json",
       },
@@ -111,7 +111,7 @@ const CreateEmployeePage = () => {
 
   // client side rendering for departments dropdown
   useEffect(() => {
-    fetchDepartments().catch(error => console.log(error));
+    fetchDepartments().catch(error => console.log(error));  
   }, []);
 
   // client side rendering for positions dropdown
