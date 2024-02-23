@@ -15,6 +15,7 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
+
 // Fields: First Name, Middle Name, Last Name, Street Address, Barangay, City, Province, Country, Zip Code, Status, Department, Position, Basic Pay, Income Tax
 // DropDown for Status: Active, Inactive
 // CRUD Table for Earnings and Deductions
@@ -24,6 +25,15 @@ import React, { useEffect, useState } from 'react'
 const CreateEmployeePage = () => {
 
   // Setting up Interfaces
+  interface Earning {
+    type: string;
+    amount: number;
+  }
+
+  interface Deduction {
+    type: string;
+    amount: number;
+  }
   interface Department {
     id: string;
     name: string;
@@ -51,6 +61,14 @@ const CreateEmployeePage = () => {
   const [incomeTax, setIncomeTax] = useState<number>(0);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [positions, setPositions] = useState<Position[]>([]);
+
+  const [earningType, setEarningType] = useState('');
+  const [earningAmount, setEarningAmount] = useState(0);
+  const [earnings, setEarnings] = useState<Earning[]>([]);
+
+  const [deductionType, setDeductionType] = useState('');
+  const [deductionAmount, setDeductionAmount] = useState(0);
+  const [deductions, setDeductions] = useState<Deduction[]>([]);
 
   // Initializing Router
   const router = useRouter();
@@ -126,7 +144,7 @@ const CreateEmployeePage = () => {
           status,
           position,
           basicPay,
-          incomeTax,
+          incomeTax
         }),
       });
       router.push('/employees-page')
@@ -134,6 +152,20 @@ const CreateEmployeePage = () => {
       console.log(error);
     }
   };
+
+  // Handle Add Earning
+  const handleAddEarning = () => {
+    setEarnings([...earnings, { type: earningType, amount: earningAmount }]);
+    setEarningType('');
+    setEarningAmount(0);
+  }
+
+  // Handle Add Deduction
+  const handleAddDeduction = () => {
+    setDeductions([...deductions, { type: deductionType, amount: deductionAmount }]);
+    setDeductionType('');
+    setDeductionAmount(0);
+  }
 
   return (
     
@@ -232,16 +264,17 @@ const CreateEmployeePage = () => {
             <h2 className='font-bold text-2xl'>Earnings</h2>
 
             {/* Form to add earning type and amount */}
-            <form action="">
-              <div className='flex gap-4 items-center'>
-                <label htmlFor="">Earning Type: </label>
-                <input type="text" />
-                <label htmlFor="">Value: </label>
-                <input type="text" />
-                <Button>Add Task</Button>
-              </div>
-            </form>    
-
+            
+            <div className='flex gap-4 items-center'>
+              <label htmlFor="">Earning Type: </label>
+              <input type="text" value={earningType} onChange={(e) => setEarningType(e.target.value)}/>
+              <label htmlFor="">Value: </label>
+              <input type="text" value={earningAmount} onChange={(e) => setEarningAmount(parseFloat(e.target.value))}/>
+              <Button type="button" onClick={handleAddEarning}>Add Task</Button>
+            </div>
+                
+            
+            {/* Table to display earnings */}
             <Table>
               <TableCaption>Employees Additional Earnings</TableCaption>
               <TableHeader>
@@ -251,10 +284,13 @@ const CreateEmployeePage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell className="font-medium">Name</TableCell>
-                  <TableCell className="text-right">$250.00</TableCell>
-                </TableRow>
+                {/* Map out the earnings and display each earning type and amount */}
+                {earnings.map((earning, key) => (
+                  <TableRow key={key}>
+                    <TableCell className="font-medium">{earning.type}</TableCell>
+                    <TableCell className="text-right">PHP {earning.amount}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
 
@@ -266,6 +302,18 @@ const CreateEmployeePage = () => {
           <div className='p-10 bg-slate-200 rounded-lg shadow-md'>
 
             <h2 className='font-bold text-lg'>Deductions</h2>  
+
+            {/* Form to add deduction type and amount */}
+            
+            <div className='flex gap-4 items-center'>
+              <label htmlFor="">Deduction Type: </label>
+              <input type="text" value={deductionType} onChange={(e) => setDeductionType(e.target.value)}/>
+              <label htmlFor="">Value: </label>
+              <input type="text" value={deductionAmount} onChange={(e) => setDeductionAmount(parseFloat(e.target.value))}/>
+              <Button type="button" onClick={handleAddDeduction}>Add Task</Button>
+            </div>
+
+            {/* Table to display deductions */}
             <Table>
               <TableCaption>Employees Additional Deductions</TableCaption>
               <TableHeader>
@@ -275,10 +323,14 @@ const CreateEmployeePage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell className="font-medium">Name</TableCell>
-                  <TableCell className="text-right">$250.00</TableCell>
-                </TableRow>
+                {/* Map out the deductions and display each deduction type and amount */}
+                {deductions.map((deduction, key) => (
+                  <TableRow key={key}>
+                    <TableCell className="font-medium">{deduction.type}</TableCell>
+                    <TableCell className="text-right">PHP {deduction.amount}</TableCell>
+                  </TableRow>
+                
+                ))}
               </TableBody>
             </Table>
     
