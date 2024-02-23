@@ -114,7 +114,12 @@ const CompanyPage = () => {
         <form>
           <div className="flex gap-4">
             <input type="text" className='rounded-lg'/>
-            
+            <select value={departmentName} onChange={(e) => setDepartmentName((e.target.value))} className='rounded-lg'>
+              <option value="" selected>Select a department</option>
+              {departments.map((department,key) => (
+                <option key={department.id} value={department.id}>{department.name}</option>
+              ))}
+            </select>
             <Button type="submit">Add</Button>
           </div>
         </form> 
