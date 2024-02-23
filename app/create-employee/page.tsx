@@ -270,7 +270,7 @@ const CreateEmployeePage = () => {
               <input type="text" value={earningType} onChange={(e) => setEarningType(e.target.value)}/>
               <label htmlFor="">Value: </label>
               <input type="text" value={earningAmount} onChange={(e) => setEarningAmount(parseFloat(e.target.value))}/>
-              <Button type="button" onClick={handleAddEarning}>Add Task</Button>
+              <Button type="button" onClick={handleAddEarning}>Add Earnings</Button>
             </div>
                 
             
@@ -310,7 +310,7 @@ const CreateEmployeePage = () => {
               <input type="text" value={deductionType} onChange={(e) => setDeductionType(e.target.value)}/>
               <label htmlFor="">Value: </label>
               <input type="text" value={deductionAmount} onChange={(e) => setDeductionAmount(parseFloat(e.target.value))}/>
-              <Button type="button" onClick={handleAddDeduction}>Add Task</Button>
+              <Button type="button" onClick={handleAddDeduction}>Add Deductions</Button>
             </div>
 
             {/* Table to display deductions */}
