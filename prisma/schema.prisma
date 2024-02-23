@@ -41,7 +41,7 @@ model Employee {
   SalaryHistory  Salary[] 
   LeaveHistory   Leave[]
   user           User?     @relation(fields: [userId], references: [id])
-  userId         Int       @unique
+  userId         Int       @unique @default(autoincrement())
 }
 
 model Position {
