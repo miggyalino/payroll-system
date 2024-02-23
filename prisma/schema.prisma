@@ -7,10 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  username     String
+  password String
+  role     String
+  employee   Employee?
+}
 
 model Employee {
   id            Int        @id @default(autoincrement())
-  employeeID    String     @unique @default(uuid())
+  employeeId    String     @unique @default(uuid())
+  email         String?    @unique 
+  contactNumber String?    @unique
   firstName     String
   middleName    String?
   lastName      String
@@ -26,9 +36,13 @@ model Employee {
   basicPay    Float
   incomeTax   Float?
   earnings      Earnings[]
-  deductions    Deduction[] 
+  deductions    Deduction[]
+  PayrollHistory Payroll[]
+  SalaryHistory  Salary[] 
+  LeaveHistory   Leave[]
+  user           User?     @relation(fields: [userId], references: [id])
+  userId         Int       @unique
 }
-
 
 model Position {
   id           Int          @id @default(autoincrement())
@@ -68,6 +82,7 @@ model Payroll {
   month          String
   year           Int
   employeeId     Int
+  employee   Employee @relation(fields: [employeeId], references: [id])
   firstName      String
   lastName       String
   basicPay       Float
@@ -77,4 +92,27 @@ model Payroll {
   netPay         Float
   createdAt      DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+}
+
+model Salary {
+  id             Int        @id @default(autoincrement())
+  employee       Employee   @relation(fields: [employeeId], references: [id])
+  employeeId     Int
+  basicPay       Float
+  incomeTax      Float
+  createdAt      DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Leave {
+  id          Int       @id @default(autoincrement())
+  employee    Employee  @relation(fields: [employeeId], references: [id])
+  employeeId  Int
+  description String
+  leaveType   String
+  startDate   DateTime
+  endDate     DateTime
+  status      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
