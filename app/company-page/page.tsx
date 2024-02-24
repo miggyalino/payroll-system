@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table"
 import { useRouter } from 'next/navigation';
 import Delete from '@/components/ui/Delete';
+import { toast } from 'sonner';
 
 
 const CompanyPage = () => {
@@ -172,7 +173,7 @@ const CompanyPage = () => {
         <form onSubmit={submitDepartment}>
           <div className="flex gap-4">
             <input type="text" value = {departmentName} onChange={(e) => setDepartmentName(e.target.value)} className='rounded-lg px-2'/>
-            <Button type="submit">Add</Button>
+            <Button type="submit" onClick={() => toast("New Department Created")}>Add</Button>
           </div>
         </form> 
 
@@ -188,7 +189,7 @@ const CompanyPage = () => {
               <TableRow key={department.id}>
                 <TableCell>{department.id}</TableCell>
                 <TableCell>{department.name}</TableCell>
-                <TableCell><button onClick={() => deleteDepartment(parseInt(department.id))}><Delete/></button></TableCell>
+                <TableCell><form onSubmit={() => deleteDepartment(parseInt(department.id))}><Delete/></form></TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -208,7 +209,7 @@ const CompanyPage = () => {
                 <option key={department.id} value={department.id}>{department.name}</option>
               ))}
             </select>
-            <Button type="submit">Add</Button>
+            <Button type="submit" onClick={() => toast("New Position Created")}>Add</Button>
           </div>
         </form> 
 
@@ -224,7 +225,7 @@ const CompanyPage = () => {
               <TableRow key={position.id}>
                 <TableCell>{position.id}</TableCell>
                 <TableCell>{position.title}</TableCell>
-                <TableCell><button onClick={() => deletePosition(parseInt(position.id))}><Delete/></button></TableCell>
+                <TableCell><form onSubmit={() => deletePosition(parseInt(position.id))}><Delete/></form></TableCell>
               </TableRow>
             ))}
           </TableBody>
