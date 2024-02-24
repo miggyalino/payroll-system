@@ -184,7 +184,7 @@ const CompanyPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
-              <TableHead>Position</TableHead>
+              <TableHead>Positions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
