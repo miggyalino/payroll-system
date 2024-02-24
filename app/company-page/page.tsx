@@ -209,7 +209,7 @@ const CompanyPage = () => {
               <TableRow key={position.id}>
                 <TableCell>{position.id}</TableCell>
                 <TableCell>{position.title}</TableCell>
-                <TableCell><button onClick={() => handleDelete(parseInt(position.id))}><Delete></Delete></button></TableCell>
+                <TableCell><button onClick={() => handleDelete(parseInt(position.id))}><Delete/></button></TableCell>
               </TableRow>
             ))}
           </TableBody>
