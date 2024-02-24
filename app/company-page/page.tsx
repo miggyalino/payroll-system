@@ -130,9 +130,24 @@ const CompanyPage = () => {
       }
     };
 
+    //Delete funstion for deleting departments-----------------------------------
+    const deleteDepartment = async (id: number) => {
+      try {
+        await fetch (`http://localhost:3000/api/department/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        router.refresh();
+      } catch (error){
+        console.log(error);
+      }
+    }
+
     
-    //Delete function for deleting-----------------------------------
-    const handleDelete = async (id: number) => {
+    //Delete function for deleting positions-----------------------------------
+    const deletePosition = async (id: number) => {
       try {
         await fetch (`http://localhost:3000/api/department/${departmentDropDown}/positions/${id}`, {
           method: 'DELETE',
@@ -173,7 +188,7 @@ const CompanyPage = () => {
               <TableRow key={department.id}>
                 <TableCell>{department.id}</TableCell>
                 <TableCell>{department.name}</TableCell>
-                <TableCell><Delete/></TableCell>
+                <TableCell><button onClick={() => deleteDepartment(parseInt(department.id))}><Delete/></button></TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -209,7 +224,7 @@ const CompanyPage = () => {
               <TableRow key={position.id}>
                 <TableCell>{position.id}</TableCell>
                 <TableCell>{position.title}</TableCell>
-                <TableCell><button onClick={() => handleDelete(parseInt(position.id))}><Delete/></button></TableCell>
+                <TableCell><button onClick={() => deletePosition(parseInt(position.id))}><Delete/></button></TableCell>
               </TableRow>
             ))}
           </TableBody>
