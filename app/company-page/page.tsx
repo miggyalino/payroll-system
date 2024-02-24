@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useRouter } from 'next/navigation';
+import Delete from '@/components/ui/Delete';
 
 
 const CompanyPage = () => {
@@ -129,6 +130,21 @@ const CompanyPage = () => {
       }
     };
 
+    
+    //Delete function for deleting-----------------------------------
+    const handleDelete = async (id: number) => {
+      try {
+        await fetch (`http://localhost:3000/api/department/${departmentDropDown}/positions/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        router.refresh();
+      } catch (error){
+        console.log(error);
+      }
+    }
 
 
   return (
@@ -157,6 +173,7 @@ const CompanyPage = () => {
               <TableRow key={department.id}>
                 <TableCell>{department.id}</TableCell>
                 <TableCell>{department.name}</TableCell>
+                <TableCell><Delete/></TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -192,6 +209,7 @@ const CompanyPage = () => {
               <TableRow key={position.id}>
                 <TableCell>{position.id}</TableCell>
                 <TableCell>{position.title}</TableCell>
+                <TableCell><button onClick={() => handleDelete(parseInt(position.id))}><Delete></Delete></button></TableCell>
               </TableRow>
             ))}
           </TableBody>
