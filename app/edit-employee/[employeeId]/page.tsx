@@ -6,6 +6,7 @@ import { getEmployee } from "@/utils/fetchUtils"
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react'
+import { set } from "date-fns";
 
 const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
 
@@ -30,6 +31,8 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
     lastName: string;
     firstName: string;
     middleName: string;
+    email: string;
+    contactNumber: string;
     streetAddress: string;
     barangay: string;
     province: string;
@@ -53,6 +56,8 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
   const [streetAddress, setStreetAddress] = useState('');
   const [barangay, setBarangay] = useState('');
   const [city, setCity] = useState('');
@@ -132,6 +137,8 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
       setFirstName(employee.firstName);
       setMiddleName(employee.middleName);
       setLastName(employee.lastName);
+      setEmail(employee.email);
+      setContactNumber(employee.contactNumber);
       setStreetAddress(employee.streetAddress);
       setBarangay(employee.barangay);
       setCity(employee.city);
@@ -212,6 +219,14 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
               <input type="text" className='border-2 rounded-full' value={lastName} onChange={(e) => setLastName(e.target.value)} />
             </label>
           {/* Address Form */}
+            <label className='flex flex-col'>
+              Email:
+              <input type="text" className='border-2 rounded-full' value={email} onChange={(e) => setEmail(e.target.value)} />
+            </label>
+            <label className='flex flex-col'>
+              Contact Number:
+              <input type="text" className='border-2 rounded-full' value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} />
+            </label>
             <label className='flex flex-col'>
               Street Address:
               <input type="text" className='border-2 rounded-full' value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)} />

@@ -48,6 +48,8 @@ const CreateEmployeePage = () => {
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
   const [streetAddress, setStreetAddress] = useState('');
   const [barangay, setBarangay] = useState('');
   const [city, setCity] = useState('');
@@ -135,6 +137,8 @@ const CreateEmployeePage = () => {
           firstName,
           middleName,
           lastName,
+          email,
+          contactNumber,
           streetAddress,
           barangay,
           city,
@@ -188,6 +192,14 @@ const CreateEmployeePage = () => {
               <input type="text" className='border-2 rounded-full' value={lastName} onChange={(e) => setLastName(e.target.value)} />
             </label>
           {/* Address Form */}
+            <label className='flex flex-col'>
+              Email:
+              <input type="text" className='border-2 rounded-full' value={email} onChange={(e) => setEmail(e.target.value)} />
+            </label>
+            <label className='flex flex-col'>
+              Contact Number:
+              <input type="text" className='border-2 rounded-full' value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} />
+            </label>
             <label className='flex flex-col'>
               Street Address:
               <input type="text" className='border-2 rounded-full' value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)} />

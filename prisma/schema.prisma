@@ -9,11 +9,14 @@ datasource db {
 
 model User {
   id       Int      @id @default(autoincrement())
+  userId   String   @unique @default(uuid())
   email    String   @unique
   username     String
   password String
   role     String
-  employee   Employee?
+  employee   Employee? @relation(fields: [employeeId], references: [id])
+  employeeId Int @unique
+
 }
 
 model Employee {
@@ -40,8 +43,8 @@ model Employee {
   PayrollHistory Payroll[]
   SalaryHistory  Salary[] 
   LeaveHistory   Leave[]
-  user           User?     @relation(fields: [userId], references: [id])
-  userId         Int       @unique @default(autoincrement())
+  user           User?     
+  userId         Int?      @unique
 }
 
 model Position {

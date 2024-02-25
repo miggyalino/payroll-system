@@ -94,7 +94,7 @@ const EmployeePage = () => {
           <TableBody>
             {employees.map((employee: any) => (
               <TableRow>
-              <TableCell>{employee.employeeID}</TableCell>
+              <TableCell>{employee.employeeId}</TableCell>
               <TableCell>{employee.lastName}</TableCell>
               <TableCell>{employee.firstName}</TableCell>
               <TableCell>{employee.city}</TableCell>
