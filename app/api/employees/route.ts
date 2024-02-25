@@ -28,15 +28,24 @@ export async function POST (request: Request){
         if (!position) {
             return NextResponse.json({ error: `Position with ID ${json.position} does not exist` }, { status: 400 });
         }
-  
+        
+        // separate the earnings and deductions from the employee data
+        const { earnings, deductions, ...employeeData } = json;
+
         const createdEmployee = await prisma.employee.create({
             data: {
-                ...json,
+                ...employeeData,
                 position: {
                     connect: {
                         id: json.position,
                     },
                 },
+                earnings: {
+                    create: earnings,
+                },
+                deductions: {
+                    create: deductions,
+                }
             }
         })
 

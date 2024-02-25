@@ -26,13 +26,13 @@ const CreateEmployeePage = () => {
 
   // Setting up Interfaces
   interface Earning {
-    type: string;
-    amount: number;
+    earningType: string;
+    value: number;
   }
 
   interface Deduction {
-    type: string;
-    amount: number;
+    deductionType: string;
+    value: number;
   }
   interface Department {
     id: string;
@@ -149,6 +149,8 @@ const CreateEmployeePage = () => {
           position,
           basicPay,
           incomeTax,
+          earnings,
+          deductions
         }),
       });
       router.push('/employees-page')
@@ -159,14 +161,14 @@ const CreateEmployeePage = () => {
 
   // Handle Add Earning
   const handleAddEarning = () => {
-    setEarnings([...earnings, { type: earningType, amount: earningAmount }]);
+    setEarnings([...earnings, { earningType: earningType, value: earningAmount }]);
     setEarningType('');
     setEarningAmount(0);
   }
 
   // Handle Add Deduction
   const handleAddDeduction = () => {
-    setDeductions([...deductions, { type: deductionType, amount: deductionAmount }]);
+    setDeductions([...deductions, { deductionType: deductionType, value: deductionAmount }]);
     setDeductionType('');
     setDeductionAmount(0);
   }
@@ -299,8 +301,8 @@ const CreateEmployeePage = () => {
                 {/* Map out the earnings and display each earning type and amount */}
                 {earnings.map((earning, key) => (
                   <TableRow key={key}>
-                    <TableCell className="font-medium">{earning.type}</TableCell>
-                    <TableCell className="text-right">PHP {earning.amount}</TableCell>
+                    <TableCell className="font-medium">{earning.earningType}</TableCell>
+                    <TableCell className="text-right">PHP {earning.value}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -338,8 +340,8 @@ const CreateEmployeePage = () => {
                 {/* Map out the deductions and display each deduction type and amount */}
                 {deductions.map((deduction, key) => (
                   <TableRow key={key}>
-                    <TableCell className="font-medium">{deduction.type}</TableCell>
-                    <TableCell className="text-right">PHP {deduction.amount}</TableCell>
+                    <TableCell className="font-medium">{deduction.deductionType}</TableCell>
+                    <TableCell className="text-right">PHP {deduction.value}</TableCell>
                   </TableRow>
                 
                 ))}
