@@ -4,7 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import { NAVBAR_ITEMS } from "@/constants";
 import Image from "next/image";
-import { BookUser, Building2, HandCoins, LayoutGrid } from "lucide-react";
+import { BookUser, Building2, HandCoins, LayoutGrid, CalendarDays } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({ subsets: ["latin"] });
@@ -34,7 +34,8 @@ export default function RootLayout({
                 {item.icon === 'dashboard-icon' ? <LayoutGrid size={20}/> : 
                  item.icon === 'company-icon' ? <Building2 size={20}/> : 
                  item.icon === 'employee-icon' ? <BookUser size={20}/> : 
-                 item.icon === 'payroll-icon' ? <HandCoins size={20}/> : null}
+                 item.icon === 'payroll-icon' ? <HandCoins size={20}/> :
+                 item.icon === 'leave-icon' ? <CalendarDays size={20}/> : null}
                 <Link href={item.href} className="text-base">
                   {item.title}
                 </Link>

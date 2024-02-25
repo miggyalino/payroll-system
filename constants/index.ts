@@ -22,5 +22,11 @@ export const NAVBAR_ITEMS = [
         href: "/company-page",
         title: "Company",
         icon: "company-icon"
+    },
+    {
+        id: "leaves",
+        href: "/leave-page",
+        title: "Leaves",
+        icon: "leave-icon"
     }
 ]
