@@ -1,3 +1,4 @@
+import colors from "tailwindcss/colors"
 import type { Config } from "tailwindcss"
 
 const config = {
@@ -18,6 +19,24 @@ const config = {
       },
     },
     extend: {
+      colors: {
+        orange: {
+          DEFAULT: colors.orange[500],
+          hover: colors.orange[600],
+          border: colors.orange[700],
+          text: colors.white,
+          dark: colors.orange[800],
+          ["dark-hover"]: colors.orange[900],
+        },
+        secondary: {
+          DEFAULT: colors.neutral[200],
+          hover: colors.neutral[300],
+          border: colors.neutral[400],
+          text: colors.neutral[500],
+          dark: colors.neutral[800],
+          ["dark-hover"]: colors.neutral[900],
+        }
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
