@@ -30,7 +30,7 @@ export async function POST (request: Request){
         }
         
         // separate the earnings and deductions from the employee data
-        const { earnings, deductions, ...employeeData } = json;
+        const { username, password, role, earnings, deductions, ...employeeData } = json;
 
         const createdEmployee = await prisma.employee.create({
             data: {
@@ -45,9 +45,21 @@ export async function POST (request: Request){
                 },
                 deductions: {
                     create: deductions,
+                },
+                user: {
+                    create: {
+                        connect: {
+                            id: json.position,
+                        },
+                        username,
+                        password,
+                        role,
+                    }
                 }
             }
         })
+
+
 
         return NextResponse.json(createdEmployee, {status: 201});
     } catch (error) {
