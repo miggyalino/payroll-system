@@ -14,6 +14,16 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
   const router = useRouter();
 
   // Interfaces
+
+  interface Earning {
+    earningType: string;
+    value: number;
+  }
+
+  interface Deduction {
+    deductionType: string;
+    value: number;
+  }
   interface Department {
     id: string;
     name: string;
@@ -65,6 +75,11 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
   const [country, setCountry] = useState('');
   const [zipCode, setZipCode] = useState('');
   const [status, setStatus] = useState('');
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
+
   const [department, setDepartment] = useState<number>(0);
   const [positionId, setPositionId] = useState<number>(0);
   const [basicPay, setBasicPay] = useState<number>(0);
