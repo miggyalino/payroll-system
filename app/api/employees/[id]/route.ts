@@ -38,14 +38,20 @@ export async function DELETE (request: Request, { params } : { params: { id: str
     // Delete the associated earnings
     await prisma.earnings.deleteMany({
         where: {
-            id: parseInt(id, 10)
+            employeeId: Number(id)
         }
     });
 
     // Delete the associated deductions
     await prisma.deduction.deleteMany({
         where: {
-            id: parseInt(id, 10)
+            employeeId: Number(id)
+        }
+    });
+
+    await prisma.user.deleteMany({
+        where: {
+            employeeId: Number(id)
         }
     });
 
