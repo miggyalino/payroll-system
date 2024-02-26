@@ -42,7 +42,6 @@ model Employee {
   SalaryHistory  Salary[] 
   LeaveHistory   Leave[]
   user           User?     
-  userId         Int?      @unique
 }
 
 model Position {
