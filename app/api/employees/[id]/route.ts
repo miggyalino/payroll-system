@@ -34,6 +34,22 @@ export async function PUT (request: Request, { params } : { params: { id: string
 
 export async function DELETE (request: Request, { params } : { params: { id: string }}) {
     const id = params.id
+
+    // Delete the associated earnings
+    await prisma.earnings.deleteMany({
+        where: {
+            id: parseInt(id, 10)
+        }
+    });
+
+    // Delete the associated deductions
+    await prisma.deduction.deleteMany({
+        where: {
+            id: parseInt(id, 10)
+        }
+    });
+
+    
     const deletedEmployee = await prisma.employee.delete({
         where: {
             id: parseInt(id, 10)

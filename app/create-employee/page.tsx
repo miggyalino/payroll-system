@@ -61,6 +61,11 @@ const CreateEmployeePage = () => {
   const [position, setPosition] = useState<number>(0);
   const [basicPay, setBasicPay] = useState<number>(0);
   const [incomeTax, setIncomeTax] = useState<number>(0);
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('Employee');
+
   const [departments, setDepartments] = useState<Department[]>([]);
   const [positions, setPositions] = useState<Position[]>([]);
 
@@ -149,6 +154,9 @@ const CreateEmployeePage = () => {
           position,
           basicPay,
           incomeTax,
+          username,
+          password,
+          role,
           earnings,
           deductions
         }),
@@ -266,6 +274,26 @@ const CreateEmployeePage = () => {
                 <option value="Active">Active</option>
                 <option value="Resigned">Resigned</option>
                 <option value="AWOL">AWOL</option>
+              </select>
+            </label>
+
+            <label className='flex flex-col'>
+              Username:
+              <input type="text" className='border-2 rounded-full' value={username} onChange={(e) => setUsername(e.target.value)} />
+            </label>
+
+            <label className='flex flex-col'>
+              Password:
+              <input type="text" className='border-2 rounded-full' value={password} onChange={(e) => setPassword(e.target.value)} />
+            </label>
+
+            <label className='flex flex-col'>
+              User Role:
+              <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                <option value="Employee">Regular Employee</option>
+                <option value="Department Manager">Department Manager</option>
+                <option value="Payroll Manager">Payroll Manager</option>
+                <option value="Administrator">Administrator</option>
               </select>
             </label>
           </div>
