@@ -194,8 +194,8 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
       setUsername(employee.user.username);
       setPassword(employee.user.password);
       setRole(employee.user.role);
-      setEarnings(employee.earnings);
-      setDeductions(employee.deductions);
+      setEarnings(Array.isArray(employee.earnings) ? employee.earnings : []);
+      setDeductions(Array.isArray(employee.deductions) ? employee.deductions : []);
     }
   }, [employee]);
 
