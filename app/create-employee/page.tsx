@@ -167,18 +167,26 @@ const CreateEmployeePage = () => {
     }
   };
 
-  // Handle Add Earning
   const handleAddEarning = () => {
     setEarnings([...earnings, { earningType: earningType, value: earningAmount }]);
     setEarningType('');
     setEarningAmount(0);
   }
+  
+  const handleDeleteEarning = (index: number) => {
+    setEarnings(earnings.filter((_, i) => i !== index));
+  }
+
 
   // Handle Add Deduction
   const handleAddDeduction = () => {
     setDeductions([...deductions, { deductionType: deductionType, value: deductionAmount }]);
     setDeductionType('');
     setDeductionAmount(0);
+  }
+
+  const handleDeleteDeduction = (index: number) => {
+    setDeductions(deductions.filter((_, i) => i !== index));
   }
 
   return (
@@ -289,7 +297,7 @@ const CreateEmployeePage = () => {
 
             <label className='flex flex-col'>
               User Role:
-              <select value={status} onChange={(e) => setStatus(e.target.value)}>
+              <select value={role} onChange={(e) => setRole(e.target.value)}>
                 <option value="Employee">Regular Employee</option>
                 <option value="Department Manager">Department Manager</option>
                 <option value="Payroll Manager">Payroll Manager</option>
@@ -331,6 +339,7 @@ const CreateEmployeePage = () => {
                   <TableRow key={key}>
                     <TableCell className="font-medium">{earning.earningType}</TableCell>
                     <TableCell className="text-right">PHP {earning.value}</TableCell>
+                    <TableCell><Button variant='destructive' onClick={() => handleDeleteEarning(key)}>Delete</Button></TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -370,6 +379,7 @@ const CreateEmployeePage = () => {
                   <TableRow key={key}>
                     <TableCell className="font-medium">{deduction.deductionType}</TableCell>
                     <TableCell className="text-right">PHP {deduction.value}</TableCell>
+                    <TableCell><Button variant='destructive' onClick={() => handleDeleteDeduction(key)}>Delete</Button></TableCell>
                   </TableRow>
                 
                 ))}

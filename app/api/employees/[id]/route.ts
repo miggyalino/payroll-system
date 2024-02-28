@@ -13,20 +13,43 @@ export async function GET (request: Request, { params } : { params: { id: string
                 include: {
                     department: true
                 }
-            }
+            },
+            user: true,
         }
     });
     return NextResponse.json(employees);
 }
 
+// Buggy PUT Function need to fix
 export async function PUT (request: Request, { params } : { params: { id: string }}) {
     const id = params.id
-    const json = await request.json()
+    const { employee, earnings, deductions, user} = await request.json()
     const updatedEmployee = await prisma.employee.update({
         where: {
             id: parseInt(id, 10)
         },
-        data: json
+        data: 
+        {
+            ...employee,
+            position: {
+                connect: {
+                    id: employee.positionId
+                }
+            },
+            earnings: {
+                update: earnings
+            },
+            deductions: {
+                update: deductions
+            },
+            user: {
+                update: {
+                    username: user.username,
+                    password: user.password,
+                    role: user.role
+                }
+            }
+        }
     })
 
     return NextResponse.json(updatedEmployee);

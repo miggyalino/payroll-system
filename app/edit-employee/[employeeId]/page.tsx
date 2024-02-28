@@ -1,5 +1,15 @@
 'use client';
 
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner'
 import { getEmployee } from "@/utils/fetchUtils"
@@ -14,6 +24,12 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
   const router = useRouter();
 
   // Interfaces
+
+  interface User {
+    username: string;
+    password: string;
+    role: string;
+  }
 
   interface Earning {
     earningType: string;
@@ -60,6 +76,9 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
       };
     };
     status: string;
+    user: User;
+    earnings: Earning[];
+    deductions: Deduction[];
   };
 
   // Initializing States
@@ -88,6 +107,13 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
   const [positions, setPositions] = useState<Position[]>([]);
   const [employee, setEmployee] = React.useState<Employee>();
   
+  const [earningType, setEarningType] = useState('');
+  const [earningAmount, setEarningAmount] = useState(0);
+  const [earnings, setEarnings] = useState<Earning[]>([]);
+
+  const [deductionType, setDeductionType] = useState('');
+  const [deductionAmount, setDeductionAmount] = useState(0);
+  const [deductions, setDeductions] = useState<Deduction[]>([]);
 
   // Fetch Departments
   const fetchDepartments = async () => {
@@ -165,6 +191,11 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
       setPositionId(employee.position.id);
       setBasicPay(employee.basicPay);
       setIncomeTax(employee.incomeTax);
+      setUsername(employee.user.username);
+      setPassword(employee.user.password);
+      setRole(employee.user.role);
+      setEarnings(employee.earnings);
+      setDeductions(employee.deductions);
     }
   }, [employee]);
 
@@ -190,6 +221,11 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
           positionId,
           basicPay,
           incomeTax,
+          username,
+          password,
+          role,
+          earnings,
+          deductions,
         }),
       });
       router.push('/employees-page')
@@ -213,6 +249,29 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
       console.log(error);
     }
   };
+
+  const handleAddEarning = () => {
+    setEarnings([...earnings, { earningType: earningType, value: earningAmount }]);
+    setEarningType('');
+    setEarningAmount(0);
+  }
+  
+  const handleDeleteEarning = (index: number) => {
+    setEarnings(earnings.filter((_, i) => i !== index));
+  }
+
+
+  // Handle Add Deduction
+  const handleAddDeduction = () => {
+    setDeductions([...deductions, { deductionType: deductionType, value: deductionAmount }]);
+    setDeductionType('');
+    setDeductionAmount(0);
+  }
+
+  const handleDeleteDeduction = (index: number) => {
+    setDeductions(deductions.filter((_, i) => i !== index));
+  }
+
 
   return (
     <div>
@@ -308,18 +367,111 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
                 <option value="AWOL">AWOL</option>
               </select>
             </label>
+
+            <label className='flex flex-col'>
+              Username:
+              <input type="text" className='border-2 rounded-full' value={username} onChange={(e) => setUsername(e.target.value)} />
+            </label>
+
+            <label className='flex flex-col'>
+              Password:
+              <input type="text" className='border-2 rounded-full' value={password} onChange={(e) => setPassword(e.target.value)} />
+            </label>
+
+            <label className='flex flex-col'>
+              User Role:
+              <select value={role} onChange={(e) => setRole(e.target.value)}>
+                <option value="Employee">Regular Employee</option>
+                <option value="Department Manager">Department Manager</option>
+                <option value="Payroll Manager">Payroll Manager</option>
+                <option value="Administrator">Administrator</option>
+              </select>
+            </label>
+          </div>
           </div>
 
           {/* Earnings Table*/}
-          <div>
-             <h2 className='font-bold text-lg'>Earnings</h2>     
+          {/* Earnings Table*/}
+          {/* TODO: Add a table for earnings that adds a row when Add Row button is clicked */}
+          {/* Fields: Earnings, Amount */}
+          <div className='flex flex-col p-10 bg-slate-200 rounded-lg shadow-md'>
+            <h2 className='font-bold text-2xl'>Earnings</h2>
+
+            {/* Form to add earning type and amount */}
+            
+            <div className='flex gap-4 items-center'>
+              <label htmlFor="">Earning Type: </label>
+              <input type="text" value={earningType} onChange={(e) => setEarningType(e.target.value)}/>
+              <label htmlFor="">Value: </label>
+              <input type="text" value={earningAmount} onChange={(e) => setEarningAmount(parseFloat(e.target.value))}/>
+              <Button type="button" onClick={handleAddEarning}>Add Earnings</Button>
+            </div>
+                
+            
+            {/* Table to display earnings */}
+            <Table>
+              <TableCaption>Employees Additional Earnings</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="">Earning Type</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Map out the earnings and display each earning type and amount */}
+                {earnings && earnings.map((earning, key) => (
+                  <TableRow key={key}>
+                    <TableCell className="font-medium">{earning.earningType}</TableCell>
+                    <TableCell className="text-right">PHP {earning.value}</TableCell>
+                    <TableCell><Button variant='destructive' onClick={() => handleDeleteEarning(key)}>Delete</Button></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+
           </div>
 
           {/* Deductions Table*/}
-          <div>
-            <h2 className='font-bold text-lg'>Deductions</h2>      
+          {/* TODO: Add a table for deductions that adds a row when Add Row button is clicked */}
+          {/* Fields: Deductions, Amount */}
+          <div className='p-10 bg-slate-200 rounded-lg shadow-md'>
+
+            <h2 className='font-bold text-lg'>Deductions</h2>  
+
+            {/* Form to add deduction type and amount */}
+            
+            <div className='flex gap-4 items-center'>
+              <label htmlFor="">Deduction Type: </label>
+              <input type="text" value={deductionType} onChange={(e) => setDeductionType(e.target.value)}/>
+              <label htmlFor="">Value: </label>
+              <input type="text" value={deductionAmount} onChange={(e) => setDeductionAmount(parseFloat(e.target.value))}/>
+              <Button type="button" onClick={handleAddDeduction}>Add Deductions</Button>
+            </div>
+
+            {/* Table to display deductions */}
+            <Table>
+              <TableCaption>Employees Additional Deductions</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="">Deduction Type</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Map out the deductions and display each deduction type and amount */}
+                {deductions && deductions.map((deduction, key) => (
+                  <TableRow key={key}>
+                    <TableCell className="font-medium">{deduction.deductionType}</TableCell>
+                    <TableCell className="text-right">PHP {deduction.value}</TableCell>
+                    <TableCell><Button variant='destructive' onClick={() => handleDeleteDeduction(key)}>Delete</Button></TableCell>
+                  </TableRow>
+                
+                ))}
+              </TableBody>
+            </Table>
+    
           </div>
-        </div>
+        
         
         
 
