@@ -23,7 +23,8 @@ export async function GET (request: Request, { params } : { params: { id: string
 // Buggy PUT Function need to fix
 export async function PUT (request: Request, { params } : { params: { id: string }}) {
     const id = params.id
-    const { employee, earnings, deductions, user} = await request.json()
+    const { employee, positionId, earnings, deductions, username, password, role} = await request.json()
+
     const updatedEmployee = await prisma.employee.update({
         where: {
             id: parseInt(id, 10)
@@ -33,7 +34,7 @@ export async function PUT (request: Request, { params } : { params: { id: string
             ...employee,
             position: {
                 connect: {
-                    id: employee.positionId
+                    id: positionId
                 }
             },
             earnings: {
@@ -41,16 +42,21 @@ export async function PUT (request: Request, { params } : { params: { id: string
             },
             deductions: {
                 update: deductions
-            },
-            user: {
-                update: {
-                    username: user.username,
-                    password: user.password,
-                    role: user.role
-                }
             }
         }
     })
+
+    const updatedUser = await prisma.user.update({
+        where: {
+            employeeId: parseInt(id, 10)
+        },
+        data: {
+            username: username,
+            password: password,
+            role: role
+        }
+    })
+
 
     return NextResponse.json(updatedEmployee);
 }
