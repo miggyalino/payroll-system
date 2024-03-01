@@ -1,23 +1,22 @@
-import { NAVBAR_ITEMS } from "@/constants";
 import { OrangeButton } from "./OrangeButton";
 import { BookUser, Building2, HandCoins, LayoutGrid } from "lucide-react";
 import Link from "next/link";
-type NavbarItem = {
+type SidebarOption = {
   icon: string;
   title: string;
   href: string;
 };
-type NavpillProps = {
-  NAVBAR_ITEMS: NavbarItem[];
-  selectedNavbar: string;
+type SidebarOptionProps = {
+  NAVBAR_ITEMS: SidebarOption[];
+  selectedOption: string;
   onSelect: (item: string) => void;
 };
 
-export function Navpill({
+export function SidebarOptions({
   NAVBAR_ITEMS,
-  selectedNavbar,
+  selectedOption,
   onSelect,
-}: NavpillProps) {
+}: SidebarOptionProps) {
   return (
     <div className="flex flex-col justify-center gap-5 px-10 py-10">
       {NAVBAR_ITEMS.map((item) => (
@@ -25,7 +24,7 @@ export function Navpill({
           key={item.title}
           onClick={() => onSelect(item.title)}
           className=" flex flex-row justify-between items-center"
-          variant={selectedNavbar === item.title ? "orange" : "ghost"}
+          variant={selectedOption === item.title ? "orange" : "ghost"}
         >
           {item.icon === "dashboard-icon" ? (
             <LayoutGrid size={20} />

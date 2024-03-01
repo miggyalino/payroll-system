@@ -26,6 +26,7 @@ const config = {
           border: colors.orange[700],
           text: colors.white,
           dark: colors.orange[800],
+          light: colors.orange[200],
           ["dark-hover"]: colors.orange[900],
         },
         secondary: {
