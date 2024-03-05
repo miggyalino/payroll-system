@@ -1,7 +1,19 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prisma from "@/prisma/client";
+import { compareAsc } from "date-fns";
+
+function areStringsEqual(str1: string, str2: string): boolean {
+  return str1 === str2;
+}
 
 export const authOptions : NextAuthOptions = {
+    adapter: PrismaAdapter(prisma),
+    secret: process.env.SECRET,
+    session: {
+      strategy: 'jwt'
+    },
     providers: [
         CredentialsProvider({
           // The name to display on the sign in form (e.g. "Sign in with...")
@@ -14,20 +26,53 @@ export const authOptions : NextAuthOptions = {
             username: { label: "Username", type: "text", placeholder: "jsmith" },
             password: { label: "Password", type: "password" }
           },
-          async authorize(credentials, req) {
+          async authorize(credentials) {
             // Add logic here to look up the user from the credentials supplied
-            const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
-      
-            if (user) {
-              // Any object returned will be saved in `user` property of the JWT
-              return user
-            } else {
-              // If you return null then an error will be displayed advising the user to check their details.
+            if(!credentials?.username || !credentials?.password) {
               return null
-      
-              // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
             }
+      
+            const existingUser = await prisma.user.findUnique({
+              where: { username: credentials?.username}
+            });
+
+            if(!existingUser){
+              return null;
+            }
+
+            const passwordMatch = await areStringsEqual(credentials.password, existingUser.password);
+
+            if(!passwordMatch){
+              return null;
+            }
+
+            return {
+              id: `${existingUser.id}`,
+              username: existingUser.username,
+            }
+
           }
         })
-      ]
+      ],
+      callbacks: {
+        async jwt({ token, user, account, profile, isNewUser }) {
+          if(user){
+            return{
+              ...token,
+              username: user.username
+            }
+          }
+          return token
+        },
+        async session ({ session, user, token }) {
+          return {
+            ...session,
+            user: {
+              ...session.user,
+              username: token.username
+            }
+          }
+          return session
+        }
+      }
 }
