@@ -12,7 +12,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner'
-import { getEmployee } from "@/utils/fetchUtils"
+import { getEmployee, getEarnings, getDeductions } from "@/utils/fetchUtils"
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react'
@@ -115,7 +115,10 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
   const [deductionAmount, setDeductionAmount] = useState(0);
   const [deductions, setDeductions] = useState<Deduction[]>([]);
 
+  
+
   // Fetch Departments
+  // Handler Function
   const fetchDepartments = async () => {
     const response = await fetch("http://localhost:3000/api/department", {
       method: "GET",
@@ -172,6 +175,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
     fetchData();
   }, []);
 
+ 
   // set default values for the form
   useEffect(() => {
     if (employee) {
@@ -194,14 +198,29 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
       setUsername(employee.user.username);
       setPassword(employee.user.password);
       setRole(employee.user.role);
-      setEarnings(Array.isArray(employee.earnings) ? employee.earnings : []);
-      setDeductions(Array.isArray(employee.deductions) ? employee.deductions : []);
     }
   }, [employee]);
+
+   // Fetch Earnings and Deductions
+   useEffect(() => {
+    const fetchEarningsData = async () => {
+      const data = await getEarnings(params.employeeId)
+      setEarnings(data);
+    }
+
+    const fetchDeductionsData = async () => {
+      const data = await getDeductions(params.employeeId)
+      setDeductions(data);
+    }
+
+    fetchEarningsData();
+    fetchDeductionsData();
+  }, [])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
+
       await fetch(`/api/employees/${params.employeeId}`, {
         method: 'PUT',
         headers: {
@@ -224,10 +243,32 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
           username,
           password,
           role,
-          earnings,
-          deductions,
         }),
       });
+
+      await fetch(`/api/employees/${params.employeeId}/earnings`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          earnings
+        }),
+      });
+  
+      // Update deductions
+      await fetch(`/api/employees/${params.employeeId}/deductions`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          deductions
+        }),
+      });
+
+
+
       router.push('/employees-page')
     } catch (error) {
       console.log(error);
@@ -419,7 +460,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
               </TableHeader>
               <TableBody>
                 {/* Map out the earnings and display each earning type and amount */}
-                {earnings && earnings.map((earning, key) => (
+                {earnings.map((earning, key) => (
                   <TableRow key={key}>
                     <TableCell className="font-medium">{earning.earningType}</TableCell>
                     <TableCell className="text-right">PHP {earning.value}</TableCell>
@@ -459,7 +500,7 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
               </TableHeader>
               <TableBody>
                 {/* Map out the deductions and display each deduction type and amount */}
-                {deductions && deductions.map((deduction, key) => (
+                {deductions.map((deduction, key) => (
                   <TableRow key={key}>
                     <TableCell className="font-medium">{deduction.deductionType}</TableCell>
                     <TableCell className="text-right">PHP {deduction.value}</TableCell>
@@ -474,8 +515,6 @@ const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
         
         
         
-
-        {/* Add a table for earnings and deductions... */}
         <div className='flex gap-4 mt-4'>
           
           <Button type="submit" onClick={() => toast("Edited Employee Details")}>

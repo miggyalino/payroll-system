@@ -37,12 +37,6 @@ export async function PUT (request: Request, { params } : { params: { id: string
                     id: positionId
                 }
             },
-            earnings: {
-                update: earnings
-            },
-            deductions: {
-                update: deductions
-            }
         }
     })
 

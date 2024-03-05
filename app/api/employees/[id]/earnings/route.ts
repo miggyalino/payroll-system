@@ -39,3 +39,16 @@ export async function POST (request: Request, { params }: { params: { id: string
         return NextResponse.json(error, {status: 500})
     }
 }
+
+export async function PUT (request: Request, { params }: { params: { id: string } }){
+    const updateData = await request.json();
+
+    const updatedEarnings = await prisma.earnings.updateMany({
+        where: {
+            employeeId: Number(params.id)
+        },
+        data: updateData
+    });
+
+    return NextResponse.json(updatedEarnings);
+}

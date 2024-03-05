@@ -49,7 +49,7 @@ export const fetchEmployees = async () => {
   }
 
   export const getEarnings = async (id: number) => {
-    const response = await fetch(`http://localhost:3000/employees/${id}/earnings`, {
+    const response = await fetch(`http://localhost:3000/api/employees/${id}/earnings`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export const fetchEmployees = async () => {
   }
 
   export const getDeductions = async (id: number) => {
-    const response = await fetch(`http://localhost:3000/employees/${id}/payroll`, {
+    const response = await fetch(`http://localhost:3000/api/employees/${id}/deductions`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
