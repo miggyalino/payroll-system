@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from "@/prisma/client";
-import { compareAsc } from "date-fns";
+import { compare } from 'bcrypt';
 
 function areStringsEqual(str1: string, str2: string): boolean {
   return str1 === str2;
@@ -23,7 +23,7 @@ export const authOptions : NextAuthOptions = {
           // e.g. domain, username, password, 2FA token, etc.
           // You can pass any HTML attribute to the <input> tag through the object.
           credentials: {
-            username: { label: "Username", type: "text", placeholder: "jsmith" },
+            username: { label: "Username", type: "text" },
             password: { label: "Password", type: "password" }
           },
           async authorize(credentials) {
@@ -49,17 +49,19 @@ export const authOptions : NextAuthOptions = {
             return {
               id: `${existingUser.id}`,
               username: existingUser.username,
+              role: existingUser.role
             }
 
           }
         })
       ],
       callbacks: {
-        async jwt({ token, user, account, profile, isNewUser }) {
+        async jwt({ token, user }) {
           if(user){
             return{
               ...token,
-              username: user.username
+              username: user.username,
+              role: user.role
             }
           }
           return token
@@ -69,7 +71,8 @@ export const authOptions : NextAuthOptions = {
             ...session,
             user: {
               ...session.user,
-              username: token.username
+              username: token.username,
+              role: token.role
             }
           }
           return session
