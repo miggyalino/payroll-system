@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { NAVBAR_ITEMS } from "@/constants";
+import { NAVBAR_ITEMS_ADMIN } from "@/constants";
 import Image from "next/image";
 import { BookUser, Building2, HandCoins, LayoutGrid } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner"
@@ -29,7 +29,7 @@ export default function RootLayout({
               <h1 className="text-lg font-bold">Payroll Management</h1>
             </div>
             <div className="flex flex-col justify-center gap-5 px-10 py-10">
-              {NAVBAR_ITEMS.map((item) => (
+              {NAVBAR_ITEMS_ADMIN.map((item) => (
               <div className="flex flex-row justify-between items-center">
                 {item.icon === 'dashboard-icon' ? <LayoutGrid size={20}/> : 
                  item.icon === 'company-icon' ? <Building2 size={20}/> : 

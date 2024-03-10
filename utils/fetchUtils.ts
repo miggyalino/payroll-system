@@ -82,6 +82,16 @@ export const fetchEmployees = async () => {
 
   }
 
+  export const fetchSession = async () => {
+    const session = await fetch('http://localhost:3000/api/session', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await session.json();
+    return data;
+  }
 
 
 

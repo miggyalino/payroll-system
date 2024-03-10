@@ -11,9 +11,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { fetchEmployees } from "@/utils/fetchUtils"
+import { fetchEmployees, fetchSession } from "@/utils/fetchUtils"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation";
+
+type Session = {
+  user: {
+    username: string
+    role: string
+  }
+  token: {
+    username: string
+    role: string
+  }
+};
 
 type Employee = {
   id: number;
@@ -58,6 +70,22 @@ const handleSubmit = async (employee: Employee) => {
 
 const EmployeePage = () => {
 
+  const [session, setSession] = useState<Session | null>(null);
+  const router = useRouter();
+  
+  useEffect(() => {
+    fetchSession().then(session => {
+      if (!session) {
+        router.push('/api/auth/signin');
+      } else if (session.user.role !== 'Administrator') {
+        router.push('/');
+      }
+      else {
+        setSession(session);
+      }
+    });
+  }, [session]);
+
   const [employees, setEmployees] = useState<Employee[]>([]);
 
   useEffect(() => {
@@ -70,7 +98,8 @@ const EmployeePage = () => {
   }, []);
 
   return (
-    <main>
+    session ? (
+      <main>
         <div className="rounded-lg shadow-lg bg-white p-4 overflow-auto">
         <Button>
           <Link href='/create-employee'>
@@ -113,6 +142,7 @@ const EmployeePage = () => {
         </Table>
         </div>
       </main>
+    ) : null  
   )
 }
 

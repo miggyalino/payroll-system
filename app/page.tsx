@@ -1,19 +1,12 @@
 'use client';
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
+import AdministratorDashboard from "@/components/AdministratorDashboard";
+import DepartmentManagerDashboard from "@/components/DepartmentManagerDashboard";
+import EmployeeDashboard from "@/components/EmployeeDashboard";
+import PayrollManagerDashboard from "@/components/PayrollManagerDashboard";
+import { fetchSession } from "@/utils/fetchUtils";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 
-const fetchSession = async () => {
-  const session = await fetch('http://localhost:3000/api/session', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  const data = await session.json();
-  return data;
-}
 
 export default function Home() {
 
@@ -30,7 +23,7 @@ export default function Home() {
   
   const [session, setSession] = useState<Session | null>(null);
   const router = useRouter();
-
+  
   useEffect(() => {
     fetchSession().then(session => {
       if (!session) {
@@ -44,15 +37,14 @@ export default function Home() {
 
   return (
     <main className="flex flex-col">
+
       <div>
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <h2 className=""><span className="text-md font-bold">Signed in as, </span><span className="text-slate-500">{session?.user.username} - {session?.user.role}</span></h2>
-      </div>
-
-      <div className="flex">
-        <div>
-
-        </div>
+        {
+        session?.user.role === 'Administrator' ? <AdministratorDashboard session={session} /> :
+        session?.user.role === 'Payroll Manager' ? <PayrollManagerDashboard session={session} /> :
+        session?.user.role === 'Department Manager' ? <DepartmentManagerDashboard session={session} /> :
+        session?.user.role === 'Employee' ? <EmployeeDashboard session={session} /> : null
+        }
       </div>
       
     </main>

@@ -14,11 +14,23 @@ import {
 import { useRouter } from 'next/navigation';
 import Delete from '@/components/ui/Delete';
 import { toast } from 'sonner';
+import { fetchSession } from '@/utils/fetchUtils';
 
 
 const CompanyPage = () => {
 
+  type Session = {
+    user: {
+      username: string
+      role: string
+    }
+    token: {
+      username: string
+      role: string
+    }
+  };
 
+  
   // Setting up interfaces--------------------------------------
   interface Department {
     id: string;
@@ -162,10 +174,27 @@ const CompanyPage = () => {
       }
     }
 
+    
+    const [session, setSession] = useState<Session | null>(null);
+
+    useEffect(() => {
+      fetchSession().then(session => {
+        if (!session) {
+          router.push('/api/auth/signin');
+        } else if (session.user.role !== 'Administrator') {
+          router.push('/');
+        }
+        else {
+          setSession(session);
+        }
+      });
+    }, [session]);
+
 
   return (
-
-    <div className='flex flex-wrap flex-row gap-4'>
+    // If session return departments and positions table. If no session return null
+    session ? (
+      <div className='flex flex-wrap flex-row gap-4'>
       <div className='flex flex-col p-10 bg-slate-200 rounded-lg shadow-md gap-4'>
         <h2 className="font-bold text-2xl">Departments</h2>
 
@@ -234,12 +263,7 @@ const CompanyPage = () => {
       </div>
 
     </div>
-    
-
-
-
-
-
+    ) : null
   )
 }
 
