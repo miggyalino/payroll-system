@@ -17,69 +17,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react'
 import { set } from "date-fns";
+import { Deduction, Department, Earning, Employee, Position } from "@/types";
 
 const EditEmployeePage =  ({ params }: { params : { employeeId : number }}) => {
 
   // Initializing Router
   const router = useRouter();
 
-  // Interfaces
-
-  interface User {
-    username: string;
-    password: string;
-    role: string;
-  }
-
-  interface Earning {
-    earningType: string;
-    value: number;
-  }
-
-  interface Deduction {
-    deductionType: string;
-    value: number;
-  }
-  interface Department {
-    id: string;
-    name: string;
-  }
-  
-  interface Position {
-    id: string;
-    name: string;
-    title: string;
-    departmentId: string;
-  }
-
-  type Employee = {
-    employeeID: number;
-    lastName: string;
-    firstName: string;
-    middleName: string;
-    email: string;
-    contactNumber: string;
-    streetAddress: string;
-    barangay: string;
-    province: string;
-    zipCode: string;
-    city: string;
-    country: string;
-    basicPay: number;
-    incomeTax: number;
-    position: {
-      id: number;
-      title: string;
-      department: {
-        id: number;
-        name: string;
-      };
-    };
-    status: string;
-    user: User;
-    earnings: Earning[];
-    deductions: Deduction[];
-  };
 
   // Initializing States
   const [firstName, setFirstName] = useState('');

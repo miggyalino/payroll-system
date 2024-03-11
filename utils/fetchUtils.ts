@@ -92,6 +92,18 @@ export const fetchEmployees = async () => {
     const data = await session.json();
     return data;
   }
+  
+  export const fetchUserEmployee = async (username: string) => {
+    const employee = await fetch('http://localhost:3000/api/users', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await employee.json();
+    return data;
+  }
+
 
 
 

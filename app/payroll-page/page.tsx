@@ -10,23 +10,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Payroll } from "@/types";
 import { getPayrolls } from "@/utils/fetchUtils";
 import { useEffect, useState } from "react";
 
-  type Payroll = {
-    employeeId: number;
-    month: string;
-    year: number;
-    lastName: string;
-    firstName: string;
-    basicPay: number;
-    incomeTax: number;
-    totalEarnings: number;
-    totalDeductions: number;
-    netPay: number;
-    position: string;
-    department: string;
-  };
 
 
 const PayrollPage = () => {

@@ -15,31 +15,9 @@ import { fetchEmployees, fetchSession } from "@/utils/fetchUtils"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation";
+import { Employee, Session } from "@/types";
 
-type Session = {
-  user: {
-    username: string
-    role: string
-  }
-  token: {
-    username: string
-    role: string
-  }
-};
 
-type Employee = {
-  id: number;
-  employeeID: number;
-  lastName: string;
-  firstName: string;
-  city: string;
-  country: string;
-  position: string;
-  department: string;
-  status: string;
-  basicPay: number;
-  incomeTax: number;
-};
 
 const handleSubmit = async (employee: Employee) => {
   try {
