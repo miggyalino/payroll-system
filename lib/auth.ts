@@ -2,7 +2,6 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from "@/prisma/client";
-import { compare } from 'bcrypt';
 
 function areStringsEqual(str1: string, str2: string): boolean {
   return str1 === str2;
@@ -60,6 +59,7 @@ export const authOptions : NextAuthOptions = {
           if(user){
             return{
               ...token,
+              id: user.id,
               username: user.username,
               role: user.role
             }
@@ -71,6 +71,7 @@ export const authOptions : NextAuthOptions = {
             ...session,
             user: {
               ...session.user,
+              id: token.id,
               username: token.username,
               role: token.role
             }

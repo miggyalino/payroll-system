@@ -94,7 +94,7 @@ export const fetchEmployees = async () => {
   }
   
   export const fetchUserEmployee = async (username: string) => {
-    const employee = await fetch('http://localhost:3000/api/users', {
+    const employee = await fetch(`http://localhost:3000/api/users/${username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
