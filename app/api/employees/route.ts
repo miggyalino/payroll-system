@@ -21,12 +21,14 @@ export async function POST (request: Request){
 
          // Check if the Position record exists
         const position = await prisma.position.findUnique({
-            where: { id: json.position },
+            where: { 
+                id: json.position
+            },
         });
     
         // If the Position record doesn't exist, return an error response
         if (!position) {
-            return NextResponse.json({ error: `Position with ID ${json.position} does not exist` }, { status: 400 });
+            return NextResponse.json({ error: `Position with ID ${json.position.id} does not exist` }, { status: 400 });
         }
         
         // separate the earnings and deductions from the employee data
