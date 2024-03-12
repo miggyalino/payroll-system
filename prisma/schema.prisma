@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
+  id       Int      @id @unique @default(autoincrement())
   username     String @unique
   password String
   role     String
@@ -45,7 +45,7 @@ model Employee {
 }
 
 model Position {
-  id           Int          @id @default(autoincrement())
+  id           Int          @id @unique @default(autoincrement())
   title        String
   department   Department   @relation(fields: [departmentId], references: [id])
   departmentId Int
@@ -53,13 +53,13 @@ model Position {
 }
 
 model Department {
-  id          Int         @id @default(autoincrement())
+  id          Int         @id @unique @default(autoincrement())
   name        String
   positions   Position[]
 }
 
 model Earnings {
-  id           Int       @id @default(autoincrement())
+  id           Int       @id @unique @default(autoincrement())
   employee     Employee  @relation(fields: [employeeId], references: [id])
   employeeId   Int
   earningType  String
@@ -68,7 +68,7 @@ model Earnings {
 
 // Define the Deductions table
 model Deduction {
-  id            Int       @id @default(autoincrement())
+  id            Int       @id @unique @default(autoincrement())
   employee      Employee  @relation(fields: [employeeId], references: [id])
   employeeId    Int
   deductionType String
@@ -77,7 +77,7 @@ model Deduction {
 
 // Define the Payroll table
 model Payroll {
-  id             Int        @id @default(autoincrement())
+  id             Int        @id @unique @default(autoincrement())
   payrollNumber  String     @unique @default(uuid())
   month          String
   year           Int
@@ -95,7 +95,7 @@ model Payroll {
 }
 
 model Salary {
-  id             Int        @id @default(autoincrement())
+  id             Int        @id @unique @default(autoincrement())
   employee       Employee   @relation(fields: [employeeId], references: [id])
   employeeId     Int
   basicPay       Float
@@ -105,7 +105,7 @@ model Salary {
 }
 
 model Leave {
-  id          Int       @id @default(autoincrement())
+  id          Int       @id @unique @default(autoincrement())
   employee    Employee  @relation(fields: [employeeId], references: [id])
   employeeId  Int
   description String

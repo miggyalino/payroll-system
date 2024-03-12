@@ -15,20 +15,19 @@ export async function POST (request: Request, { params }: { params: { id: string
     try {
         const json = await request.json()
 
-        // Get the position with the highest id
-        const lastPosition = await prisma.position.findFirst({
-            orderBy: {
-            id: 'desc',
-            },
-        });
+        // // Get the position with the highest id
+        // const lastPosition = await prisma.position.findFirst({
+        //     orderBy: {
+        //     id: 'desc',
+        //     },
+        // });
         
-        // Calculate the next id
-        const nextId = (lastPosition?.id || 0) + 1;
+        // // Calculate the next id
+        // const nextId = (lastPosition?.id || 0) + 1;
 
         const createdPosition = await prisma.position.create({
             data: {
                 ...json,
-                id: nextId,
                 departmentId: Number(params.id)
             }
         })
