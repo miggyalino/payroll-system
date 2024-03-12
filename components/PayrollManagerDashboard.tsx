@@ -1,17 +1,8 @@
+import { DashboardProps } from '@/types';
 import React from 'react'
 
-type Session = {
-  user: {
-    username: string
-    role: string
-  }
-  token: {
-    username: string
-    role: string
-  }
-};
 
-const PayrollManagerDashboard = ({ session }: {session: Session | null }) => {
+const PayrollManagerDashboard = ({ session, employee }: DashboardProps) => {
 return (
   <div>
       <h1 className="text-2xl font-bold">Dashboard</h1>

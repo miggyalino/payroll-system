@@ -83,27 +83,34 @@ export const fetchEmployees = async () => {
   }
 
   export const fetchSession = async () => {
-    const session = await fetch('http://localhost:3000/api/session', {
+    const response = await fetch('http://localhost:3000/api/session', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    const data = await session.json();
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
     return data;
   }
   
-  export const fetchUserEmployee = async (username: string) => {
-    const employee = await fetch(`http://localhost:3000/api/users/${username}`, {
+  export const fetchUserEmployee = async (id: number) => {
+    const response = await fetch(`http://localhost:3000/api/users/${id}`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    const data = await employee.json();
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
     return data;
   }
-
-
-
 

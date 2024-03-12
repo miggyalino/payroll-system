@@ -2,8 +2,10 @@ export type Session = {
     user: {
       username: string
       role: string
+      id: string
     }
     token: {
+      id: string
       username: string
       role: string
     }
@@ -39,7 +41,7 @@ export type Session = {
   
   export type Employee = {
     id: number;
-    employeeID: number;
+    employeeId: number;
     lastName: string;
     firstName: string;
     middleName: string;
@@ -81,3 +83,8 @@ export type Payroll = {
     position: string;
     department: string;
   };
+
+export type DashboardProps = {
+  session: Session | null;
+  employee: Employee | undefined;
+};
