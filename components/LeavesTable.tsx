@@ -13,9 +13,28 @@ import {
 } from "@/components/ui/table";
 import { fetchLeaves } from "@/utils/fetchUtils";
 import { Leave } from "@/types";
+import { useRouter } from "next/navigation";
 
 const LeavesTable = () => {
-  const [leaves, setLeaves] = useState<Leave>(); // Add Leaves Type in Use State
+  const router = useRouter();
+  const approveLeave = async (id: number) => {
+    try {
+      await fetch(`/api/leaves/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: "Approved",
+        }),
+      });
+      toast("Approved Leave");
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const [leaves, setLeaves] = useState<Leave[]>(); // Add Leaves Type in Use State
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,17 +62,22 @@ const LeavesTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow></TableRow>
-          <TableCell>12345</TableCell>
-          <TableCell>Alino</TableCell>
-          <TableCell>Jose</TableCell>
-          <TableCell>Vacation</TableCell>
-          <TableCell>2/7/2012</TableCell>
-          <TableCell>2/4/2012</TableCell>
-          <TableCell>Pending</TableCell>
-          <TableCell>
-            <Button type="submit">Approve</Button>
-          </TableCell>
+          {leaves?.map((leave, index) => (
+            <TableRow key={index}>
+              <TableCell>{leave.employee.employeeId}</TableCell>
+              <TableCell>{leave.employee.lastName}</TableCell>
+              <TableCell>{leave.employee.firstName}</TableCell>
+              <TableCell>{leave.leaveType}</TableCell>
+              <TableCell>{leave.startDate.split("T")[0]}</TableCell>
+              <TableCell>{leave.endDate.split("T")[0]}</TableCell>
+              <TableCell>{leave.status}</TableCell>
+              <TableCell>
+                <Button onClick={() => approveLeave(Number(leave.id))}>
+                  Approve
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>

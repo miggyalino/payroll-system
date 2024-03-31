@@ -2,7 +2,12 @@ import prisma from "@/prisma/client";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const leaves = await prisma.leave.findMany();
+  const leaves = await prisma.leave.findMany({
+    include: {
+      employee: true,
+    },
+  });
+
   return NextResponse.json(leaves);
 }
 
