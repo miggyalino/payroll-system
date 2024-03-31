@@ -1,5 +1,6 @@
 import { DashboardProps, Session } from '@/types'
 import React from 'react'
+import LeavesTable from './LeavesTable'
 
 
 const DepartmentManagerDashboard = ({ session, employee }: DashboardProps) => {
@@ -28,6 +29,10 @@ return (
                   <h2><span className='font-bold'>Address:</span> {employee.zipCode} {employee.streetAddress}, {employee.barangay}, {employee.city}, {employee.province}, {employee.country}</h2>
                 </>
               )}
+        </div>
+
+        <div>
+          <LeavesTable />
         </div>
       </div>
 )

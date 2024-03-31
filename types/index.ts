@@ -1,3 +1,5 @@
+import { DateTime } from "next-auth/providers/kakao";
+
 export type Session = {
     user: {
       username: string
@@ -88,3 +90,12 @@ export type DashboardProps = {
   session: Session | null;
   employee: Employee | undefined;
 };
+
+export type Leave = {
+  id: string;
+  startDate: DateTime;
+  endDate: DateTime;
+  leaveType: String;
+  status: String;
+  description: String;
+}

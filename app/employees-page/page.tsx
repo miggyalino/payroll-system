@@ -113,7 +113,6 @@ const EmployeePage = () => {
                 <Button><Link href={`/edit-employee/${employee.id}`}>Edit Employee</Link></Button>
                 <Button onClick={() => handleSubmit(employee)}>Generate Payslip</Button>
               </TableCell>
-              
             </TableRow>
             ))}
           </TableBody>
