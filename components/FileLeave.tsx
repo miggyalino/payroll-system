@@ -14,6 +14,7 @@ import {
 import { Button } from "./ui/button";
 import { Employee } from "@/types";
 import { fetchEmployees, getEmployee } from "@/utils/fetchUtils";
+import { toast } from "sonner";
 
 type FileLeaveProps = {
   id: number | undefined;
@@ -41,6 +42,7 @@ const FileLeave = ({ id, employeeId }: FileLeaveProps) => {
         status: "Pending",
       }),
     });
+    toast("Filed Leave");
   };
 
   useEffect(() => {
