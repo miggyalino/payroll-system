@@ -79,16 +79,16 @@ model Deduction {
 model Payroll {
   id             Int        @id @unique @default(autoincrement())
   payrollNumber  String     @unique @default(uuid())
-  month          String
-  year           Int
-  employeeId     Int
+  employeeId     Int        
   employee   Employee @relation(fields: [employeeId], references: [id])
-  firstName      String
-  lastName       String
-  basicPay       Float
   incomeTax      Float
+  sss            Float
+  philhealth     Float
+  pagibig        Float
   totalEarnings  Float?
   totalDeductions Float?
+  startDate      DateTime
+  endDate        DateTime
   netPay         Float
   createdAt      DateTime   @default(now())
   updatedAt     DateTime   @updatedAt

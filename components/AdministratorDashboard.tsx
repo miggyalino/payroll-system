@@ -4,7 +4,7 @@ import LeavesTable from "./LeavesTable";
 
 const AdministratorDashboard = ({ session, employee }: DashboardProps) => {
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-col">
       <div className="mb-4">
         {session && session.user && (
           <h2 className="">
